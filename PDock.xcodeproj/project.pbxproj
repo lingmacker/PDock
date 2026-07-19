@@ -1,0 +1,152 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* PDockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000001 /* PDockApp.swift */; };
+		B00000000000000000000002 /* PDockApplicationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000002 /* PDockApplicationModel.swift */; };
+		B00000000000000000000003 /* DockPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000003 /* DockPreviewController.swift */; };
+		B00000000000000000000004 /* DockPreviewSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000004 /* DockPreviewSystem.swift */; };
+		B00000000000000000000005 /* DockPreviewSleeping.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000005 /* DockPreviewSleeping.swift */; };
+		B00000000000000000000006 /* LiveDockPreviewSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000006 /* LiveDockPreviewSystem.swift */; };
+		B00000000000000000000007 /* DockPreviewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000007 /* DockPreviewState.swift */; };
+		B00000000000000000000008 /* DockAnchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000008 /* DockAnchor.swift */; };
+		B00000000000000000000009 /* SwitchableWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000009 /* SwitchableWindow.swift */; };
+		B0000000000000000000000A /* PreviewableApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000A /* PreviewableApplication.swift */; };
+		B0000000000000000000000B /* ScreenGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000B /* ScreenGeometry.swift */; };
+		B0000000000000000000000C /* AccessibilityUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000C /* AccessibilityUtilities.swift */; };
+		B0000000000000000000000D /* ScreenCaptureThumbnailCapturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000D /* ScreenCaptureThumbnailCapturer.swift */; };
+		B0000000000000000000000E /* WindowCaptureMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000E /* WindowCaptureMatcher.swift */; };
+		B0000000000000000000000F /* WindowThumbnailCapturing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000000F /* WindowThumbnailCapturing.swift */; };
+		B00000000000000000000010 /* WindowPreviewPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000010 /* WindowPreviewPanelController.swift */; };
+		B00000000000000000000011 /* WindowPreviewPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000011 /* WindowPreviewPanelView.swift */; };
+		B00000000000000000000012 /* WindowPreviewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* WindowPreviewLayout.swift */; };
+		B00000000000000000000013 /* PermissionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* PermissionController.swift */; };
+		B00000000000000000000014 /* OnboardingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* OnboardingWindowController.swift */; };
+		B00000000000000000000015 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000015 /* OnboardingView.swift */; };
+		B00000000000000000000016 /* MenuBarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* MenuBarContent.swift */; };
+		B00000000000000000000017 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* SettingsView.swift */; };
+		B00000000000000000000018 /* LaunchAtLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* LaunchAtLoginController.swift */; };
+		B00000000000000000000019 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* Localizable.xcstrings */; };
+		B0000000000000000000001A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0000000000000000000000C /* InfoPlist.strings */; };
+		B0000000000000000000001B /* DockPreviewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001D /* DockPreviewControllerTests.swift */; };
+		B0000000000000000000001C /* WindowCaptureMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001E /* WindowCaptureMatcherTests.swift */; };
+		B0000000000000000000001D /* WindowPreviewLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001F /* WindowPreviewLayoutTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C00000000000000000000020 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E00000000000000000000001;
+			remoteInfo = PDock;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A00000000000000000000001 /* PDockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDockApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000002 /* PDockApplicationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDockApplicationModel.swift; sourceTree = "<group>"; };
+		A00000000000000000000003 /* DockPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockPreviewController.swift; sourceTree = "<group>"; };
+		A00000000000000000000004 /* DockPreviewSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockPreviewSystem.swift; sourceTree = "<group>"; };
+		A00000000000000000000005 /* DockPreviewSleeping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockPreviewSleeping.swift; sourceTree = "<group>"; };
+		A00000000000000000000006 /* LiveDockPreviewSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDockPreviewSystem.swift; sourceTree = "<group>"; };
+		A00000000000000000000007 /* DockPreviewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockPreviewState.swift; sourceTree = "<group>"; };
+		A00000000000000000000008 /* DockAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockAnchor.swift; sourceTree = "<group>"; };
+		A00000000000000000000009 /* SwitchableWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchableWindow.swift; sourceTree = "<group>"; };
+		A0000000000000000000000A /* PreviewableApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewableApplication.swift; sourceTree = "<group>"; };
+		A0000000000000000000000B /* ScreenGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGeometry.swift; sourceTree = "<group>"; };
+		A0000000000000000000000C /* AccessibilityUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUtilities.swift; sourceTree = "<group>"; };
+		A0000000000000000000000D /* ScreenCaptureThumbnailCapturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCaptureThumbnailCapturer.swift; sourceTree = "<group>"; };
+		A0000000000000000000000E /* WindowCaptureMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCaptureMatcher.swift; sourceTree = "<group>"; };
+		A0000000000000000000000F /* WindowThumbnailCapturing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowThumbnailCapturing.swift; sourceTree = "<group>"; };
+		A00000000000000000000010 /* WindowPreviewPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPreviewPanelController.swift; sourceTree = "<group>"; };
+		A00000000000000000000011 /* WindowPreviewPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPreviewPanelView.swift; sourceTree = "<group>"; };
+		A00000000000000000000012 /* WindowPreviewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPreviewLayout.swift; sourceTree = "<group>"; };
+		A00000000000000000000013 /* PermissionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionController.swift; sourceTree = "<group>"; };
+		A00000000000000000000014 /* OnboardingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWindowController.swift; sourceTree = "<group>"; };
+		A00000000000000000000015 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		A00000000000000000000016 /* MenuBarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContent.swift; sourceTree = "<group>"; };
+		A00000000000000000000017 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A00000000000000000000018 /* LaunchAtLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginController.swift; sourceTree = "<group>"; };
+		A00000000000000000000019 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		A0000000000000000000001A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A0000000000000000000001B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A0000000000000000000001C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0000000000000000000001D /* DockPreviewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockPreviewControllerTests.swift; sourceTree = "<group>"; };
+		A0000000000000000000001E /* WindowCaptureMatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCaptureMatcherTests.swift; sourceTree = "<group>"; };
+		A0000000000000000000001F /* WindowPreviewLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPreviewLayoutTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000020 /* PDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000021 /* PDockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D00000000000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		D00000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C00000000000000000000002 = {isa = PBXGroup; children = (C00000000000000000000003 /* PDock */, C00000000000000000000010 /* PDockTests */, C00000000000000000000011 /* Products */); sourceTree = "<group>"; };
+		C00000000000000000000003 /* PDock */ = {isa = PBXGroup; path = PDock; sourceTree = "<group>"; children = (C00000000000000000000004 /* App */, C00000000000000000000005 /* DockPreview */, C0000000000000000000000D /* Permissions */, C0000000000000000000000E /* MenuBar */, C0000000000000000000000F /* Settings */, C00000000000000000000012 /* LaunchAtLogin */, C0000000000000000000000B /* Resources */, C00000000000000000000013 /* SupportingFiles */); };
+		C00000000000000000000004 /* App */ = {isa = PBXGroup; path = App; sourceTree = "<group>"; children = (A00000000000000000000001, A00000000000000000000002); };
+		C00000000000000000000005 /* DockPreview */ = {isa = PBXGroup; path = DockPreview; sourceTree = "<group>"; children = (A00000000000000000000003, A00000000000000000000004, A00000000000000000000005, A00000000000000000000006, C00000000000000000000006 /* Model */, C00000000000000000000007 /* DockObservation */, C00000000000000000000008 /* WindowDiscovery */, C00000000000000000000009 /* ThumbnailCapture */, C0000000000000000000000A /* Presentation */); };
+		C00000000000000000000006 /* Model */ = {isa = PBXGroup; path = Model; sourceTree = "<group>"; children = (A00000000000000000000007, A00000000000000000000008, A00000000000000000000009, A0000000000000000000000A); };
+		C00000000000000000000007 /* DockObservation */ = {isa = PBXGroup; path = DockObservation; sourceTree = "<group>"; children = (A0000000000000000000000B); };
+		C00000000000000000000008 /* WindowDiscovery */ = {isa = PBXGroup; path = WindowDiscovery; sourceTree = "<group>"; children = (A0000000000000000000000C); };
+		C00000000000000000000009 /* ThumbnailCapture */ = {isa = PBXGroup; path = ThumbnailCapture; sourceTree = "<group>"; children = (A0000000000000000000000D, A0000000000000000000000E, A0000000000000000000000F); };
+		C0000000000000000000000A /* Presentation */ = {isa = PBXGroup; path = Presentation; sourceTree = "<group>"; children = (A00000000000000000000010, A00000000000000000000011, A00000000000000000000012); };
+		C0000000000000000000000B /* Resources */ = {isa = PBXGroup; path = Resources; sourceTree = "<group>"; children = (A00000000000000000000019, C0000000000000000000000C /* InfoPlist.strings */); };
+		C0000000000000000000000C /* InfoPlist.strings */ = {isa = PBXVariantGroup; children = (A0000000000000000000001A /* en */, A0000000000000000000001B /* zh-Hans */); name = InfoPlist.strings; sourceTree = "<group>"; };
+		C0000000000000000000000D /* Permissions */ = {isa = PBXGroup; path = Permissions; sourceTree = "<group>"; children = (A00000000000000000000013, A00000000000000000000014, A00000000000000000000015); };
+		C0000000000000000000000E /* MenuBar */ = {isa = PBXGroup; path = MenuBar; sourceTree = "<group>"; children = (A00000000000000000000016); };
+		C0000000000000000000000F /* Settings */ = {isa = PBXGroup; path = Settings; sourceTree = "<group>"; children = (A00000000000000000000017); };
+		C00000000000000000000010 /* PDockTests */ = {isa = PBXGroup; path = PDockTests; sourceTree = "<group>"; children = (C00000000000000000000014 /* DockPreview */); };
+		C00000000000000000000011 /* Products */ = {isa = PBXGroup; children = (A00000000000000000000020 /* PDock.app */, A00000000000000000000021 /* PDockTests.xctest */); name = Products; sourceTree = "<group>"; };
+		C00000000000000000000012 /* LaunchAtLogin */ = {isa = PBXGroup; path = LaunchAtLogin; sourceTree = "<group>"; children = (A00000000000000000000018); };
+		C00000000000000000000013 /* SupportingFiles */ = {isa = PBXGroup; path = SupportingFiles; sourceTree = "<group>"; children = (A0000000000000000000001C); };
+		C00000000000000000000014 /* DockPreview */ = {isa = PBXGroup; path = DockPreview; sourceTree = "<group>"; children = (A0000000000000000000001D, A0000000000000000000001E, A0000000000000000000001F); };
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E00000000000000000000001 /* PDock */ = {isa = PBXNativeTarget; buildConfigurationList = F00000000000000000000002; buildPhases = (D00000000000000000000003 /* Sources */, D00000000000000000000001 /* Frameworks */, D00000000000000000000005 /* Resources */); buildRules = (); dependencies = (); name = PDock; productName = PDock; productReference = A00000000000000000000020 /* PDock.app */; productType = "com.apple.product-type.application"; };
+		E00000000000000000000002 /* PDockTests */ = {isa = PBXNativeTarget; buildConfigurationList = F00000000000000000000003; buildPhases = (D00000000000000000000004 /* Sources */, D00000000000000000000002 /* Frameworks */, D00000000000000000000006 /* Resources */); buildRules = (); dependencies = (E00000000000000000000003 /* PBXTargetDependency */); name = PDockTests; productName = PDockTests; productReference = A00000000000000000000021 /* PDockTests.xctest */; productType = "com.apple.product-type.bundle.unit-test"; };
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C00000000000000000000001 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 2700; LastUpgradeCheck = 2700; TargetAttributes = {E00000000000000000000001 = {CreatedOnToolsVersion = 27.0; }; E00000000000000000000002 = {CreatedOnToolsVersion = 27.0; TestTargetID = E00000000000000000000001; }; }; }; buildConfigurationList = F00000000000000000000001; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base, "zh-Hans"); mainGroup = C00000000000000000000002; preferredProjectObjectVersion = 77; productRefGroup = C00000000000000000000011 /* Products */; projectDirPath = ""; projectRoot = ""; targets = (E00000000000000000000001 /* PDock */, E00000000000000000000002 /* PDockTests */); };
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D00000000000000000000005 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000019 /* Localizable.xcstrings in Resources */, B0000000000000000000001A /* InfoPlist.strings in Resources */); runOnlyForDeploymentPostprocessing = 0; };
+		D00000000000000000000006 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D00000000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000001, B00000000000000000000002, B00000000000000000000003, B00000000000000000000004, B00000000000000000000005, B00000000000000000000006, B00000000000000000000007, B00000000000000000000008, B00000000000000000000009, B0000000000000000000000A, B0000000000000000000000B, B0000000000000000000000C, B0000000000000000000000D, B0000000000000000000000E, B0000000000000000000000F, B00000000000000000000010, B00000000000000000000011, B00000000000000000000012, B00000000000000000000013, B00000000000000000000014, B00000000000000000000015, B00000000000000000000016, B00000000000000000000017, B00000000000000000000018); runOnlyForDeploymentPostprocessing = 0; };
+		D00000000000000000000004 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B0000000000000000000001B, B0000000000000000000001C, B0000000000000000000001D); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E00000000000000000000003 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = E00000000000000000000001 /* PDock */; targetProxy = C00000000000000000000020 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F00000000000000000000004 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ARCHS = arm64; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_C_LANGUAGE_STANDARD = gnu17; MACOSX_DEPLOYMENT_TARGET = 14.0; ONLY_ACTIVE_ARCH = YES; SDKROOT = macosx; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_VERSION = 6.0; }; name = Debug; };
+		F00000000000000000000005 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ARCHS = arm64; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; GCC_C_LANGUAGE_STANDARD = gnu17; MACOSX_DEPLOYMENT_TARGET = 14.0; SDKROOT = macosx; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_VERSION = 6.0; }; name = Release; };
+		F00000000000000000000006 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_APP_SANDBOX = NO; ENABLE_DEBUG_DYLIB = NO; ENABLE_HARDENED_RUNTIME = YES; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = PDock/SupportingFiles/Info.plist; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks"; LOCALIZATION_PREFERS_STRING_CATALOGS = YES; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.lingmacker.PDock; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Debug; };
+		F00000000000000000000007 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; ENABLE_APP_SANDBOX = NO; ENABLE_DEBUG_DYLIB = NO; ENABLE_HARDENED_RUNTIME = YES; GENERATE_INFOPLIST_FILE = NO; INFOPLIST_FILE = PDock/SupportingFiles/Info.plist; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks"; LOCALIZATION_PREFERS_STRING_CATALOGS = YES; MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.lingmacker.PDock; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; }; name = Release; };
+		F00000000000000000000008 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = com.lingmacker.PDockTests; PRODUCT_NAME = "$(TARGET_NAME)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PDock.app/Contents/MacOS/PDock"; }; name = Debug; };
+		F00000000000000000000009 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = com.lingmacker.PDockTests; PRODUCT_NAME = "$(TARGET_NAME)"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PDock.app/Contents/MacOS/PDock"; }; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F00000000000000000000001 /* Build configuration list for PBXProject */ = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000004 /* Debug */, F00000000000000000000005 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F00000000000000000000002 /* Build configuration list for PBXNativeTarget PDock */ = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000006 /* Debug */, F00000000000000000000007 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F00000000000000000000003 /* Build configuration list for PBXNativeTarget PDockTests */ = {isa = XCConfigurationList; buildConfigurations = (F00000000000000000000008 /* Debug */, F00000000000000000000009 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = C00000000000000000000001 /* Project object */;
+}
