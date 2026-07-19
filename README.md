@@ -77,8 +77,6 @@ make build \
   DEVELOPMENT_TEAM=TEAMID
 ```
 
-Makefile 只负责 Xcode 构建和签名参数传递。正式发布仍需通过 Apple Notary Service 公证，并对最终 App 或分发包执行 stapling。
-
 ## 首次运行
 
 1. 启动 PDock。
