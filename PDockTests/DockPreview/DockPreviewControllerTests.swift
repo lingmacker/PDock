@@ -1,4 +1,5 @@
 import XCTest
+import ApplicationServices
 @testable import PDock
 
 @MainActor
@@ -340,6 +341,55 @@ final class DockPreviewControllerTests: XCTestCase {
         XCTAssertEqual(restoredModel.previewTiming.dismissalDelayMilliseconds, 800)
     }
 
+    func testWindowActivatorFocusesTheSelectedWindowAtApplicationLevel() {
+        let firstID = WindowIdentity(processID: 42, elementID: 1)
+        let secondID = WindowIdentity(processID: 42, elementID: 2)
+        let secondTarget = WindowActivationTarget(
+            id: secondID,
+            element: AXUIElementCreateApplication(secondID.processID)
+        )
+        let system = RecordingWindowActivationSystem()
+        let activator = WindowActivator(system: system)
+
+        activator.activate(secondTarget)
+
+        XCTAssertFalse(system.operations.contains(.focusApplicationWindow(firstID)))
+        XCTAssertTrue(system.operations.contains(.focusApplicationWindow(secondID)))
+    }
+
+}
+
+private enum WindowActivationOperation: Equatable {
+    case unhide(Int32)
+    case activate(Int32)
+    case minimized(WindowIdentity, Bool)
+    case focusApplicationWindow(WindowIdentity)
+    case raise(WindowIdentity)
+}
+
+@MainActor
+private final class RecordingWindowActivationSystem: WindowActivationSystem {
+    private(set) var operations: [WindowActivationOperation] = []
+
+    func unhideApplication(processID: Int32) {
+        operations.append(.unhide(processID))
+    }
+
+    func activateApplication(processID: Int32) {
+        operations.append(.activate(processID))
+    }
+
+    func setMinimized(_ minimized: Bool, for target: WindowActivationTarget) {
+        operations.append(.minimized(target.id, minimized))
+    }
+
+    func focusApplicationWindow(_ target: WindowActivationTarget) {
+        operations.append(.focusApplicationWindow(target.id))
+    }
+
+    func raise(_ target: WindowActivationTarget) {
+        operations.append(.raise(target.id))
+    }
 }
 
 @MainActor

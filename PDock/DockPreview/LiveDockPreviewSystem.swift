@@ -2,10 +2,70 @@ import AppKit
 import ApplicationServices
 import CoreGraphics
 
+struct WindowActivationTarget {
+    let id: WindowIdentity
+    let element: AXUIElement
+}
+
+@MainActor
+protocol WindowActivationSystem {
+    func unhideApplication(processID: Int32)
+    func activateApplication(processID: Int32)
+    func setMinimized(_ minimized: Bool, for target: WindowActivationTarget)
+    func focusApplicationWindow(_ target: WindowActivationTarget)
+    func raise(_ target: WindowActivationTarget)
+}
+
+@MainActor
+struct LiveWindowActivationSystem: WindowActivationSystem {
+    func unhideApplication(processID: Int32) {
+        NSRunningApplication(processIdentifier: processID)?.unhide()
+    }
+
+    func activateApplication(processID: Int32) {
+        NSRunningApplication(processIdentifier: processID)?.activate(options: [])
+    }
+
+    func setMinimized(_ minimized: Bool, for target: WindowActivationTarget) {
+        setAccessibilityAttribute(
+            target.element,
+            kAXMinimizedAttribute,
+            value: minimized ? kCFBooleanTrue : kCFBooleanFalse
+        )
+    }
+
+    func focusApplicationWindow(_ target: WindowActivationTarget) {
+        let application = AXUIElementCreateApplication(target.id.processID)
+        setAccessibilityAttribute(
+            application,
+            kAXFocusedWindowAttribute,
+            value: target.element
+        )
+    }
+
+    func raise(_ target: WindowActivationTarget) {
+        AXUIElementPerformAction(target.element, kAXRaiseAction as CFString)
+    }
+}
+
+@MainActor
+struct WindowActivator {
+    let system: any WindowActivationSystem
+
+    func activate(_ target: WindowActivationTarget) {
+        system.unhideApplication(processID: target.id.processID)
+        system.activateApplication(processID: target.id.processID)
+        system.setMinimized(false, for: target)
+        system.focusApplicationWindow(target)
+        system.raise(target)
+    }
+}
+
 @MainActor
 final class LiveDockPreviewSystem: DockPreviewSystem {
     private let panelController = WindowPreviewPanelController()
     private let screenGeometry = ScreenGeometry()
+    private let windowActivator: WindowActivator
     private var eventHandler: (@MainActor (DockPreviewEvent) -> Void)?
     private var globalMonitor: Any?
     private var localMonitor: Any?
@@ -13,6 +73,10 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
     private var windowTask: Task<Void, Never>?
     private var windowElements: [WindowIdentity: AXUIElement] = [:]
     private var activeApplication: PreviewableApplication?
+
+    init(windowActivationSystem: any WindowActivationSystem = LiveWindowActivationSystem()) {
+        windowActivator = WindowActivator(system: windowActivationSystem)
+    }
 
     var permissionState: DockPreviewPermissionState {
         let accessibilityMissing = !AXIsProcessTrusted()
@@ -99,27 +163,7 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
         guard let window = windowElements[id] else {
             return
         }
-        if let runningApplication = NSRunningApplication(processIdentifier: id.processID) {
-            runningApplication.unhide()
-            runningApplication.activate(options: [])
-        }
-
-        setAccessibilityAttribute(
-            window,
-            kAXMinimizedAttribute,
-            value: kCFBooleanFalse
-        )
-        setAccessibilityAttribute(
-            window,
-            kAXMainAttribute,
-            value: kCFBooleanTrue
-        )
-        setAccessibilityAttribute(
-            window,
-            kAXFocusedAttribute,
-            value: kCFBooleanTrue
-        )
-        AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+        windowActivator.activate(WindowActivationTarget(id: id, element: window))
     }
 
     private func handle(_ event: NSEvent) {
