@@ -9,6 +9,7 @@ final class PDockApplicationModel {
     let dockPreview: DockPreviewController
 
     private(set) var previewsEnabled: Bool
+    private(set) var previewTiming: DockPreviewTiming
     private var hasStarted = false
     private var permissionPollingTask: Task<Void, Never>?
     private let onboarding = OnboardingWindowController()
@@ -21,9 +22,23 @@ final class PDockApplicationModel {
         } else {
             previewsEnabled = defaults.bool(forKey: "previewsEnabled")
         }
+        let initialTiming = DockPreviewTiming(
+            presentationDelayMilliseconds: defaults.object(
+                forKey: "previewPresentationDelayMilliseconds"
+            ) == nil ? 300 : defaults.integer(
+                forKey: "previewPresentationDelayMilliseconds"
+            ),
+            dismissalDelayMilliseconds: defaults.object(
+                forKey: "previewDismissalDelayMilliseconds"
+            ) == nil ? 250 : defaults.integer(
+                forKey: "previewDismissalDelayMilliseconds"
+            )
+        )
+        previewTiming = initialTiming
         dockPreview = DockPreviewController(
             system: LiveDockPreviewSystem(),
-            thumbnailCapturer: ScreenCaptureThumbnailCapturer()
+            thumbnailCapturer: ScreenCaptureThumbnailCapturer(),
+            timing: initialTiming
         )
     }
 
@@ -75,6 +90,24 @@ final class PDockApplicationModel {
         synchronizePreviewState()
     }
 
+    func setPreviewPresentationDelayMilliseconds(_ value: Double) {
+        setPreviewTiming(
+            DockPreviewTiming(
+                presentationDelayMilliseconds: Int(value.rounded()),
+                dismissalDelayMilliseconds: previewTiming.dismissalDelayMilliseconds
+            )
+        )
+    }
+
+    func setPreviewDismissalDelayMilliseconds(_ value: Double) {
+        setPreviewTiming(
+            DockPreviewTiming(
+                presentationDelayMilliseconds: previewTiming.presentationDelayMilliseconds,
+                dismissalDelayMilliseconds: Int(value.rounded())
+            )
+        )
+    }
+
     func setLaunchAtLoginEnabled(_ enabled: Bool) {
         launchAtLogin.setEnabled(enabled)
     }
@@ -100,6 +133,19 @@ final class PDockApplicationModel {
     func quit() {
         dockPreview.stop()
         NSApplication.shared.terminate(nil)
+    }
+
+    private func setPreviewTiming(_ timing: DockPreviewTiming) {
+        previewTiming = timing
+        defaults.set(
+            timing.presentationDelayMilliseconds,
+            forKey: "previewPresentationDelayMilliseconds"
+        )
+        defaults.set(
+            timing.dismissalDelayMilliseconds,
+            forKey: "previewDismissalDelayMilliseconds"
+        )
+        dockPreview.setTiming(timing)
     }
 
     private func synchronizePreviewState() {

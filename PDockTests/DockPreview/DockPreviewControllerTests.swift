@@ -177,6 +177,57 @@ final class DockPreviewControllerTests: XCTestCase {
         XCTAssertNil(system.presentedPanel)
     }
 
+    func testMovingToWindowlessApplicationDismissesPreviousPreviewImmediately() async {
+        let window = SwitchableWindow(
+            id: WindowIdentity(processID: 42, elementID: 12),
+            title: "TextEdit Document",
+            frame: CGRect(x: 50, y: 50, width: 700, height: 500),
+            isMinimized: false
+        )
+        let system = TestDockPreviewSystem(permissionState: .granted, windows: [window])
+        let sleeper = TestDockPreviewSleeper()
+        let controller = DockPreviewController(system: system, sleeper: sleeper)
+        let textEditTarget = DockHoverTarget(
+            application: PreviewableApplication(
+                bundleIdentifier: "com.apple.TextEdit",
+                displayName: "TextEdit",
+                processIDs: [42]
+            ),
+            anchor: DockAnchor(
+                itemFrame: CGRect(x: 500, y: 0, width: 64, height: 64),
+                screenFrame: CGRect(x: 0, y: 0, width: 1440, height: 900),
+                edge: .bottom
+            )
+        )
+        let windowlessTarget = DockHoverTarget(
+            application: PreviewableApplication(
+                bundleIdentifier: "com.apple.ActivityMonitor",
+                displayName: "Activity Monitor",
+                processIDs: [73]
+            ),
+            anchor: DockAnchor(
+                itemFrame: CGRect(x: 570, y: 0, width: 64, height: 64),
+                screenFrame: CGRect(x: 0, y: 0, width: 1440, height: 900),
+                edge: .bottom
+            )
+        )
+
+        controller.start()
+        system.send(.pointerMoved(.dock(textEditTarget)))
+        await sleeper.resumeNextSleep()
+        await Task.yield()
+        XCTAssertEqual(system.presentedPanel?.application, textEditTarget.application)
+
+        system.windows = []
+        system.send(.pointerMoved(.dock(windowlessTarget)))
+        await sleeper.waitUntilSleepPending()
+        XCTAssertNil(system.presentedPanel)
+
+        await sleeper.resumeNextSleep()
+        await Task.yield()
+        XCTAssertNil(system.presentedPanel)
+    }
+
     func testDockMagnificationUpdatesAnchorWithoutRestartingDwell() async {
         let window = SwitchableWindow(
             id: WindowIdentity(processID: 42, elementID: 12),
@@ -218,6 +269,65 @@ final class DockPreviewControllerTests: XCTestCase {
 
         XCTAssertEqual(system.presentedPanel?.anchor.itemFrame.width, 80)
     }
+    func testConfiguredTimingControlsPresentationAndDismissalDelays() async {
+        let window = SwitchableWindow(
+            id: WindowIdentity(processID: 42, elementID: 13),
+            title: "Timing",
+            frame: CGRect(x: 50, y: 50, width: 700, height: 500),
+            isMinimized: false
+        )
+        let system = TestDockPreviewSystem(permissionState: .granted, windows: [window])
+        let sleeper = TestDockPreviewSleeper()
+        let controller = DockPreviewController(
+            system: system,
+            sleeper: sleeper,
+            timing: DockPreviewTiming(
+                presentationDelayMilliseconds: 700,
+                dismissalDelayMilliseconds: 900
+            )
+        )
+        let target = DockHoverTarget(
+            application: PreviewableApplication(
+                bundleIdentifier: "com.apple.TextEdit",
+                displayName: "TextEdit",
+                processIDs: [42]
+            ),
+            anchor: DockAnchor(
+                itemFrame: CGRect(x: 500, y: 0, width: 64, height: 64),
+                screenFrame: CGRect(x: 0, y: 0, width: 1440, height: 900),
+                edge: .bottom
+            )
+        )
+
+        controller.start()
+        system.send(.pointerMoved(.dock(target)))
+        let presentationDelay = await sleeper.requestedDuration(at: 0)
+        XCTAssertEqual(presentationDelay, .milliseconds(700))
+
+        await sleeper.resumeNextSleep()
+        await Task.yield()
+        system.send(.pointerMoved(.outside))
+        let dismissalDelay = await sleeper.requestedDuration(at: 1)
+        XCTAssertEqual(dismissalDelay, .milliseconds(900))
+        await sleeper.resumeNextSleep()
+    }
+
+    func testPreviewTimingPersistsInUserDefaults() {
+        let suiteName = "PDockTests.PreviewTiming.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defer {
+            defaults.removePersistentDomain(forName: suiteName)
+        }
+        let model = PDockApplicationModel(defaults: defaults)
+
+        model.setPreviewPresentationDelayMilliseconds(650)
+        model.setPreviewDismissalDelayMilliseconds(800)
+        let restoredModel = PDockApplicationModel(defaults: defaults)
+
+        XCTAssertEqual(restoredModel.previewTiming.presentationDelayMilliseconds, 650)
+        XCTAssertEqual(restoredModel.previewTiming.dismissalDelayMilliseconds, 800)
+    }
+
 }
 
 @MainActor
@@ -277,8 +387,10 @@ private final class TestDockPreviewSystem: DockPreviewSystem {
 
 private actor TestDockPreviewSleeper: DockPreviewSleeping {
     private var continuations: [CheckedContinuation<Void, Never>] = []
+    private var requestedDurations: [Duration] = []
 
     func sleep(for duration: Duration) async throws {
+        requestedDurations.append(duration)
         await withCheckedContinuation { continuation in
             continuations.append(continuation)
         }
@@ -288,6 +400,13 @@ private actor TestDockPreviewSleeper: DockPreviewSleeping {
         while continuations.isEmpty {
             await Task.yield()
         }
+    }
+
+    func requestedDuration(at index: Int) async -> Duration {
+        while requestedDurations.indices.contains(index) == false {
+            await Task.yield()
+        }
+        return requestedDurations[index]
     }
 
     func resumeNextSleep() async {

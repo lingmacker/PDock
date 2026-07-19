@@ -16,6 +16,30 @@ struct SettingsView: View {
                 LabeledContent("Status", value: model.statusText)
             }
 
+            Section("Preview Timing") {
+                timingControl(
+                    title: "Show Delay",
+                    milliseconds: Binding(
+                        get: {
+                            Double(model.previewTiming.presentationDelayMilliseconds)
+                        },
+                        set: model.setPreviewPresentationDelayMilliseconds
+                    )
+                )
+                timingControl(
+                    title: "Hide Delay",
+                    milliseconds: Binding(
+                        get: {
+                            Double(model.previewTiming.dismissalDelayMilliseconds)
+                        },
+                        set: model.setPreviewDismissalDelayMilliseconds
+                    )
+                )
+                Text("Changes apply to the next Dock interaction.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section("Permissions") {
                 permissionRow(
                     title: "Accessibility",
@@ -61,10 +85,32 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .padding()
-        .frame(width: 520, height: 470)
+        .frame(width: 520, height: 590)
         .task {
             model.refreshPermissions()
             model.launchAtLogin.refresh()
+        }
+    }
+
+    private func timingControl(
+        title: LocalizedStringKey,
+        milliseconds: Binding<Double>
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            LabeledContent {
+                Text(verbatim: "\(Int(milliseconds.wrappedValue.rounded())) ms")
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+            } label: {
+                Text(title)
+            }
+            Slider(
+                value: milliseconds,
+                in: Double(DockPreviewTiming.delayRange.lowerBound)
+                    ... Double(DockPreviewTiming.delayRange.upperBound),
+                step: 50
+            )
+            .accessibilityLabel(Text(title))
         }
     }
 

@@ -1,6 +1,43 @@
 import Foundation
 import Observation
 
+struct DockPreviewTiming: Equatable, Sendable {
+    static let delayRange = 0...2_000
+    static let standard = DockPreviewTiming(
+        presentationDelayMilliseconds: 300,
+        dismissalDelayMilliseconds: 250
+    )
+
+    let presentationDelayMilliseconds: Int
+    let dismissalDelayMilliseconds: Int
+
+    init(
+        presentationDelayMilliseconds: Int,
+        dismissalDelayMilliseconds: Int
+    ) {
+        self.presentationDelayMilliseconds = presentationDelayMilliseconds.clamped(
+            to: Self.delayRange
+        )
+        self.dismissalDelayMilliseconds = dismissalDelayMilliseconds.clamped(
+            to: Self.delayRange
+        )
+    }
+
+    var presentationDelay: Duration {
+        .milliseconds(presentationDelayMilliseconds)
+    }
+
+    var dismissalDelay: Duration {
+        .milliseconds(dismissalDelayMilliseconds)
+    }
+}
+
+private extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
+    }
+}
+
 @MainActor
 @Observable
 public final class DockPreviewController {
@@ -14,6 +51,9 @@ public final class DockPreviewController {
 
     @ObservationIgnored
     private let thumbnailCapturer: any WindowThumbnailCapturing
+
+    @ObservationIgnored
+    private var timing: DockPreviewTiming
 
     @ObservationIgnored
     private var hoverTask: Task<Void, Never>?
@@ -36,11 +76,17 @@ public final class DockPreviewController {
     init(
         system: DockPreviewSystem,
         sleeper: any DockPreviewSleeping = ContinuousDockPreviewSleeper(),
-        thumbnailCapturer: any WindowThumbnailCapturing = UnavailableWindowThumbnailCapturer()
+        thumbnailCapturer: any WindowThumbnailCapturing = UnavailableWindowThumbnailCapturer(),
+        timing: DockPreviewTiming = .standard
     ) {
         self.system = system
         self.sleeper = sleeper
         self.thumbnailCapturer = thumbnailCapturer
+        self.timing = timing
+    }
+
+    func setTiming(_ timing: DockPreviewTiming) {
+        self.timing = timing
     }
 
     public func start() {
@@ -120,9 +166,11 @@ public final class DockPreviewController {
             }
 
             hoverTask?.cancel()
+            closePanel()
             currentTarget = target
+            let presentationDelay = timing.presentationDelay
             hoverTask = Task { [weak self, sleeper] in
-                try? await sleeper.sleep(for: .milliseconds(300))
+                try? await sleeper.sleep(for: presentationDelay)
                 guard !Task.isCancelled else {
                     return
                 }
@@ -140,8 +188,9 @@ public final class DockPreviewController {
             hoverTask = nil
             currentTarget = nil
             dismissTask?.cancel()
+            let dismissalDelay = timing.dismissalDelay
             dismissTask = Task { [weak self, sleeper] in
-                try? await sleeper.sleep(for: .milliseconds(250))
+                try? await sleeper.sleep(for: dismissalDelay)
                 guard !Task.isCancelled else {
                     return
                 }
