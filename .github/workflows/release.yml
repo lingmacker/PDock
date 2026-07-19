@@ -60,20 +60,13 @@ jobs:
           echo "VERSION=$version" >> "$GITHUB_ENV"
           echo "ARCHIVE_NAME=PDock-$version-macos-arm64.zip" >> "$GITHUB_ENV"
 
-      - name: Import Developer ID certificate
-        uses: apple-actions/import-codesign-certs@v3
-        with:
-          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
-          p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
-
       - name: Build release app
         run: |
           make build \
             CONFIGURATION=Release \
             DERIVED_DATA=.build/release \
             CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="Developer ID Application" \
-            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}"
+            CODE_SIGN_IDENTITY=-
 
       - name: Verify release app
         shell: bash
@@ -85,39 +78,9 @@ jobs:
           built_version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")"
           architectures="$(lipo -archs "$executable")"
 
-          signature_info="$(codesign -d --verbose=4 "$app" 2>&1)"
-          designated_requirement="$(codesign -d -r- "$app" 2>&1)"
           [[ "$built_version" == "$VERSION" ]]
           [[ "$architectures" == "arm64" ]]
           codesign --verify --deep --strict --verbose=2 "$app"
-          grep -Fq "Authority=Developer ID Application:" <<< "$signature_info"
-          grep -Fq "TeamIdentifier=${{ secrets.APPLE_TEAM_ID }}" <<< "$signature_info"
-          if grep -Fq "designated => cdhash" <<< "$designated_requirement"; then
-            echo "Release app has an ad-hoc identity; macOS permissions would be lost after an update." >&2
-            exit 1
-          fi
-
-      - name: Notarize and staple release app
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          app=.build/release/Build/Products/Release/PDock.app
-          submission_archive=.build/release/PDock-notarization.zip
-
-          ditto -c -k --sequesterRsrc --keepParent "$app" "$submission_archive"
-          xcrun notarytool submit "$submission_archive" \
-            --apple-id "$APPLE_ID" \
-            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
-            --team-id "$APPLE_TEAM_ID" \
-            --wait
-          xcrun stapler staple "$app"
-          xcrun stapler validate "$app"
-          spctl --assess --type execute --verbose=4 "$app"
 
       - name: Package release app
         shell: bash
@@ -151,6 +114,6 @@ jobs:
               "dist/$ARCHIVE_NAME.sha256" \
               --verify-tag \
               --title "PDock $VERSION" \
-              --notes "Signed with Developer ID, notarized by Apple, and stapled for offline Gatekeeper verification." \
+              --notes "This build is ad-hoc signed and not notarized. macOS Gatekeeper may require explicit user approval before first launch." \
               --generate-notes
           fi

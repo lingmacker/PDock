@@ -77,6 +77,8 @@ make build \
   DEVELOPMENT_TEAM=TEAMID
 ```
 
+当前 GitHub Release 工作流生成 ad-hoc 签名且未经公证的压缩包。应用内容变化后，macOS 可能将其识别为新的代码身份，用户需要重新授予辅助功能和屏幕录制权限。
+
 ## 首次运行
 
 1. 启动 PDock。
