@@ -24,7 +24,7 @@ struct WindowPreviewPanelView: View {
     @Bindable var model: WindowPreviewPanelModel
 
     var body: some View {
-        ScrollView([.horizontal, .vertical]) {
+        ScrollView(.vertical) {
             LazyVGrid(
                 columns: [GridItem(.adaptive(minimum: 200, maximum: 280), spacing: 12)],
                 spacing: 12
@@ -60,8 +60,9 @@ private struct WindowPreviewCardView: View {
         Button(action: select) {
             VStack(alignment: .leading, spacing: 8) {
                 thumbnail
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .frame(height: 140)
+                    .clipped()
 
                 Text(card.title)
                     .font(.system(.body, design: .default, weight: .medium))
@@ -70,7 +71,7 @@ private struct WindowPreviewCardView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(8)
-            .frame(minWidth: 200, maxWidth: 280)
+            .frame(minWidth: 200, maxWidth: .infinity)
             .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 10))
             .contentShape(RoundedRectangle(cornerRadius: 10))
         }

@@ -15,14 +15,23 @@ final class DockPreviewControllerTests: XCTestCase {
         )
     }
 
-    func testHoverPresentsSwitchableWindowsAfterDwell() async {
-        let window = SwitchableWindow(
+    func testHoverPresentsOneCardForEachSwitchableWindowAfterDwell() async {
+        let firstWindow = SwitchableWindow(
             id: WindowIdentity(processID: 42, elementID: 7),
             title: "Quarterly Plan",
             frame: CGRect(x: 100, y: 100, width: 900, height: 700),
             isMinimized: false
         )
-        let system = TestDockPreviewSystem(permissionState: .granted, windows: [window])
+        let secondWindow = SwitchableWindow(
+            id: WindowIdentity(processID: 42, elementID: 8),
+            title: "Meeting Notes",
+            frame: CGRect(x: 140, y: 140, width: 700, height: 500),
+            isMinimized: false
+        )
+        let system = TestDockPreviewSystem(
+            permissionState: .granted,
+            windows: [firstWindow, secondWindow]
+        )
         let sleeper = TestDockPreviewSleeper()
         let controller = DockPreviewController(system: system, sleeper: sleeper)
         let target = DockHoverTarget(
@@ -43,7 +52,10 @@ final class DockPreviewControllerTests: XCTestCase {
         await sleeper.resumeNextSleep()
         await Task.yield()
 
-        XCTAssertEqual(system.presentedPanel?.cards.map(\.title), ["Quarterly Plan"])
+        XCTAssertEqual(
+            system.presentedPanel?.cards.map(\.title),
+            ["Quarterly Plan", "Meeting Notes"]
+        )
     }
 
     func testLeavingDockAndPanelDismissesPresentedWindows() async {
