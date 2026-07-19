@@ -2,15 +2,15 @@
   <title>PDock Focus Grid App Icon</title>
   <defs>
     <clipPath id="icon-shape">
-      <rect x="64" y="52" width="896" height="896" rx="212"/>
+      <rect width="1024" height="1024" rx="200"/>
     </clipPath>
     <rect id="window-cell" width="14" height="12" rx="3.5" fill="currentColor"/>
     <rect id="dock-cell" width="10" height="10" rx="3" fill="currentColor"/>
   </defs>
 
   <g clip-path="url(#icon-shape)">
-    <rect x="64" y="52" width="896" height="896" rx="212" fill="#FFFFFF"/>
-    <g transform="translate(102 102) scale(8.2)" color="#171717">
+    <rect width="1024" height="1024" rx="200" fill="#FFFFFF"/>
+    <g transform="translate(43.4286 57.1429) scale(9.37143)" color="#171717">
       <use href="#window-cell" x="21" y="20" opacity="0.5"/>
       <use href="#window-cell" x="43" y="16"/>
       <use href="#window-cell" x="65" y="20" opacity="0.5"/>
@@ -25,5 +25,5 @@
     </g>
   </g>
 
-  <rect x="66" y="54" width="892" height="892" rx="210" stroke="#171717" stroke-opacity="0.14" stroke-width="4"/>
+  <rect x="2" y="2" width="1020" height="1020" rx="198" stroke="#171717" stroke-opacity="0.14" stroke-width="4"/>
 </svg>
