@@ -13,6 +13,7 @@ final class PDockApplicationModel {
     private var hasStarted = false
     private var permissionPollingTask: Task<Void, Never>?
     private let onboarding = OnboardingWindowController()
+    private let settings = SettingsWindowController()
     private let defaults: UserDefaults
 
     init(defaults: UserDefaults = .standard) {
@@ -114,6 +115,10 @@ final class PDockApplicationModel {
 
     func showOnboarding() {
         onboarding.show(model: self)
+    }
+
+    func showSettings() {
+        settings.show(model: self)
     }
 
     func requestAccessibility() {

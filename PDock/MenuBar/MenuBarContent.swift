@@ -22,66 +22,32 @@ struct MenuBarContent: View {
             if !model.permissions.allGranted {
                 Button(action: model.showOnboarding) {
                     Text("Complete Permission Setup")
-                        .menuBarRow()
                 }
-                .buttonStyle(.plain)
             }
 
             Divider()
                 .padding(.vertical, 4)
 
-            SettingsLink {
+            Button(action: model.showSettings) {
                 Text("Settings…")
-                    .menuBarRow()
             }
-            .buttonStyle(.plain)
 
             Button {
                 NSApplication.shared.orderFrontStandardAboutPanel(nil)
                 NSApplication.shared.activate()
             } label: {
                 Text("About PDock")
-                    .menuBarRow()
             }
-            .buttonStyle(.plain)
 
             Divider()
                 .padding(.vertical, 4)
 
             Button(action: model.quit) {
                 Text("Quit PDock")
-                    .menuBarRow()
             }
-            .buttonStyle(.plain)
             .keyboardShortcut("q")
         }
         .padding(6)
         .frame(width: 220)
-    }
-}
-
-private struct MenuBarRowModifier: ViewModifier {
-    @State private var isHovered = false
-
-    func body(content: Content) -> some View {
-        content
-            .frame(maxWidth: .infinity, minHeight: 24, alignment: .leading)
-            .padding(.horizontal, 8)
-            .contentShape(Rectangle())
-            .foregroundStyle(isHovered ? Color.white : Color.primary)
-            .background(
-                isHovered ? Color.accentColor : Color.clear,
-                in: RoundedRectangle(cornerRadius: 6)
-            )
-            .onHover { isHovered = $0 }
-            .transaction { transaction in
-                transaction.animation = nil
-            }
-    }
-}
-
-private extension View {
-    func menuBarRow() -> some View {
-        modifier(MenuBarRowModifier())
     }
 }

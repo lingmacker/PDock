@@ -10,10 +10,6 @@ struct PDockApp: App {
             MenuBarContent(model: appDelegate.model)
         }
         .menuBarExtraStyle(.menu)
-
-        Settings {
-            SettingsView(model: appDelegate.model)
-        }
     }
 }
 
