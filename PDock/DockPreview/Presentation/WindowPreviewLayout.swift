@@ -3,6 +3,19 @@ import CoreGraphics
 struct WindowPreviewLayout {
     let gap: CGFloat
 
+    func panelSize(cardCount: Int, screenSize: CGSize) -> CGSize {
+        let count = max(cardCount, 1)
+        let maximumColumns = max(1, Int((screenSize.width * 0.75) / 224))
+        let columns = min(count, min(maximumColumns, 4))
+        let rows = Int(ceil(Double(count) / Double(columns)))
+        let width = min(screenSize.width * 0.75, CGFloat(columns * 224 + 16))
+        let height = min(
+            screenSize.height * 0.7,
+            CGFloat(rows * 196 + max(rows - 1, 0) * 8 + 16)
+        )
+        return CGSize(width: width, height: height)
+    }
+
     func frame(panelSize: CGSize, anchor: DockAnchor) -> CGRect {
         let item = anchor.itemFrame
         let screen = anchor.screenFrame

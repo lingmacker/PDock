@@ -77,18 +77,12 @@ final class WindowPreviewPanelController {
         _ panel: NSPanel,
         for presentation: WindowPreviewPresentation
     ) {
-        let screen = presentation.anchor.screenFrame
-        let cardCount = max(presentation.cards.count, 1)
-        let maximumColumns = max(1, Int((screen.width * 0.75) / 224))
-        let columns = min(cardCount, min(maximumColumns, 4))
-        let rows = Int(ceil(Double(cardCount) / Double(columns)))
-        let width = min(screen.width * 0.75, CGFloat(columns * 224 + 16))
-        let height = min(
-            screen.height * 0.7,
-            CGFloat(rows * 160 + max(rows - 1, 0) * 8 + 16)
+        let panelSize = layout.panelSize(
+            cardCount: presentation.cards.count,
+            screenSize: presentation.anchor.screenFrame.size
         )
         let frame = layout.frame(
-            panelSize: CGSize(width: width, height: height),
+            panelSize: panelSize,
             anchor: presentation.anchor
         )
         panel.setFrame(frame, display: true)

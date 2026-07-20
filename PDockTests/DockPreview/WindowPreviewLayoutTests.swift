@@ -36,4 +36,15 @@ final class WindowPreviewLayoutTests: XCTestCase {
         XCTAssertEqual(left.origin, CGPoint(x: 72, y: 282))
         XCTAssertEqual(right.origin, CGPoint(x: 968, y: 282))
     }
+
+    func testSingleCardPanelIs212PointsTall() {
+        let layout = WindowPreviewLayout(gap: 8)
+
+        let size = layout.panelSize(
+            cardCount: 1,
+            screenSize: CGSize(width: 1440, height: 900)
+        )
+
+        XCTAssertEqual(size, CGSize(width: 240, height: 212))
+    }
 }

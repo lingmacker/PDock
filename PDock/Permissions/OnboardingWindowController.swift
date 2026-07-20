@@ -8,8 +8,7 @@ final class OnboardingWindowController {
 
     func show(model: PDockApplicationModel) {
         if let window {
-            window.makeKeyAndOrderFront(nil)
-            NSApplication.shared.activate()
+            present(window)
             return
         }
 
@@ -31,8 +30,13 @@ final class OnboardingWindowController {
         window.delegate = delegate
         windowDelegate = delegate
         self.window = window
+        present(window)
+    }
+
+    private func present(_ window: NSWindow) {
+        NSApplication.shared.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
-        NSApplication.shared.activate()
+        window.orderFrontRegardless()
     }
 }
 

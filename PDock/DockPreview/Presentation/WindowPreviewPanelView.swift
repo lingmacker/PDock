@@ -115,7 +115,7 @@ private struct WindowPreviewCardView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .frame(height: 140)
+            .frame(height: 176)
             .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 10))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .onHover { hovering in
