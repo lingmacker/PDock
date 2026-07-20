@@ -61,16 +61,22 @@ final class DockPreviewControllerTests: XCTestCase {
         )
     }
 
-    func testClosingPreviewClosesWindowAndDismissesPreviewPanel() async {
-        let window = SwitchableWindow(
+    func testClosingPreviewsRemovesOnlyTargetUntilLastWindowCloses() async {
+        let firstWindow = SwitchableWindow(
             id: WindowIdentity(processID: 42, elementID: 10),
             title: "Draft",
             frame: CGRect(x: 100, y: 100, width: 900, height: 700),
             isMinimized: false
         )
+        let secondWindow = SwitchableWindow(
+            id: WindowIdentity(processID: 42, elementID: 11),
+            title: "Reference",
+            frame: CGRect(x: 140, y: 140, width: 700, height: 500),
+            isMinimized: false
+        )
         let system = TestDockPreviewSystem(
             permissionState: .granted,
-            windows: [window]
+            windows: [firstWindow, secondWindow]
         )
         let controller = DockPreviewController(
             system: system,
@@ -94,9 +100,15 @@ final class DockPreviewControllerTests: XCTestCase {
         controller.start()
         system.send(.pointerMoved(.dock(target)))
         await fulfillment(of: [presented], timeout: 1)
-        system.closePresentedWindow(window.id)
 
-        XCTAssertEqual(system.closedWindowIDs, [window.id])
+        system.closePresentedWindow(firstWindow.id)
+
+        XCTAssertEqual(system.closedWindowIDs, [firstWindow.id])
+        XCTAssertEqual(system.presentedPanel?.cards.map(\.id), [secondWindow.id])
+
+        system.closePresentedWindow(secondWindow.id)
+
+        XCTAssertEqual(system.closedWindowIDs, [firstWindow.id, secondWindow.id])
         XCTAssertNil(system.presentedPanel)
     }
 

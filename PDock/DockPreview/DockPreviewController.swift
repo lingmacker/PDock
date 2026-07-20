@@ -282,15 +282,26 @@ public final class DockPreviewController {
                 closePanel()
             },
             onClose: { [weak self] id in
-                guard let self else {
-                    return
-                }
-                system.closeWindow(id)
-                currentTarget = nil
-                closePanel()
+                self?.closeWindowAndRemoveCard(id)
             }
         )
     }
+
+    private func closeWindowAndRemoveCard(_ id: WindowIdentity) {
+        system.closeWindow(id)
+        guard var presentation = currentPresentation else {
+            return
+        }
+        presentation.cards.removeAll { $0.id == id }
+        guard !presentation.cards.isEmpty else {
+            currentTarget = nil
+            closePanel()
+            return
+        }
+        currentPresentation = presentation
+        system.update(presentation)
+    }
+
     private func startCapturing(_ windows: [SwitchableWindow]) {
         captureTask?.cancel()
         let sessionID = UUID()
