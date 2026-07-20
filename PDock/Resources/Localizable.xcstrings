@@ -6,6 +6,7 @@
     "Accessibility" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Accessibility" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "辅助功能" } } } },
     "Application" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Application" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "应用" } } } },
     "Changes apply to the next Dock interaction." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Changes apply to the next Dock interaction." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "更改将在下一次 Dock 交互时生效。" } } } },
+    "Close window" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Close window" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关闭窗口" } } } },
     "Complete Permission Setup" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete Permission Setup" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "完成权限设置" } } } },
     "Dock Preview" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Dock Preview" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Dock 窗口预览" } } } },
     "Done" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "完成" } } } },

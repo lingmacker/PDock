@@ -9,9 +9,11 @@ protocol DockPreviewSystem: AnyObject {
     func switchableWindows(for application: PreviewableApplication) async -> [SwitchableWindow]
     func present(
         _ presentation: WindowPreviewPresentation,
-        onSelect: @escaping @MainActor (WindowIdentity) -> Void
+        onSelect: @escaping @MainActor (WindowIdentity) -> Void,
+        onClose: @escaping @MainActor (WindowIdentity) -> Void
     )
     func update(_ presentation: WindowPreviewPresentation)
     func dismissPanel()
     func selectWindow(_ id: WindowIdentity)
+    func closeWindow(_ id: WindowIdentity)
 }

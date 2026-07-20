@@ -142,10 +142,15 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
 
     func present(
         _ presentation: WindowPreviewPresentation,
-        onSelect: @escaping @MainActor (WindowIdentity) -> Void
+        onSelect: @escaping @MainActor (WindowIdentity) -> Void,
+        onClose: @escaping @MainActor (WindowIdentity) -> Void
     ) {
         activeApplication = presentation.application
-        panelController.present(presentation, onSelect: onSelect)
+        panelController.present(
+            presentation,
+            onSelect: onSelect,
+            onClose: onClose
+        )
         startWindowObservation(for: presentation.application)
     }
 
@@ -164,6 +169,19 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
             return
         }
         windowActivator.activate(WindowActivationTarget(id: id, element: window))
+    }
+
+    func closeWindow(_ id: WindowIdentity) {
+        guard
+            let window = windowElements[id],
+            let closeButton: AXUIElement = accessibilityAttribute(
+                window,
+                kAXCloseButtonAttribute
+            )
+        else {
+            return
+        }
+        AXUIElementPerformAction(closeButton, kAXPressAction as CFString)
     }
 
     private func handle(_ event: NSEvent) {

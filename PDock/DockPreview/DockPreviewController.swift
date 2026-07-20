@@ -271,14 +271,20 @@ public final class DockPreviewController {
         )
         currentPresentation = presentation
         startCapturing(windows)
-        system.present(presentation) { [weak self] id in
-            guard let self else {
-                return
+        system.present(
+            presentation,
+            onSelect: { [weak self] id in
+                guard let self else {
+                    return
+                }
+                system.selectWindow(id)
+                currentTarget = nil
+                closePanel()
+            },
+            onClose: { [weak self] id in
+                self?.system.closeWindow(id)
             }
-            system.selectWindow(id)
-            currentTarget = nil
-            closePanel()
-        }
+        )
     }
     private func startCapturing(_ windows: [SwitchableWindow]) {
         captureTask?.cancel()

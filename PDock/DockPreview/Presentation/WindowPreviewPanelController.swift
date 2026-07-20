@@ -17,11 +17,13 @@ final class WindowPreviewPanelController {
 
     func present(
         _ presentation: WindowPreviewPresentation,
-        onSelect: @escaping @MainActor (WindowIdentity) -> Void
+        onSelect: @escaping @MainActor (WindowIdentity) -> Void,
+        onClose: @escaping @MainActor (WindowIdentity) -> Void
     ) {
         let model = WindowPreviewPanelModel(
             presentation: presentation,
-            onSelect: onSelect
+            onSelect: onSelect,
+            onClose: onClose
         )
         let panel = makePanel(rootView: WindowPreviewPanelView(model: model))
         self.model = model

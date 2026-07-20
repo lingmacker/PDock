@@ -48,15 +48,56 @@ final class DockPreviewControllerTests: XCTestCase {
             )
         )
 
+        let presented = expectation(description: "Window Preview Panel presented")
+        system.nextPresentExpectation = presented
         controller.start()
         system.send(.pointerMoved(.dock(target)))
         await sleeper.resumeNextSleep()
-        await Task.yield()
+        await fulfillment(of: [presented], timeout: 1)
 
         XCTAssertEqual(
             system.presentedPanel?.cards.map(\.title),
             ["Quarterly Plan", "Meeting Notes"]
         )
+    }
+
+    func testClosingPreviewClosesCorrespondingWindow() async {
+        let window = SwitchableWindow(
+            id: WindowIdentity(processID: 42, elementID: 10),
+            title: "Draft",
+            frame: CGRect(x: 100, y: 100, width: 900, height: 700),
+            isMinimized: false
+        )
+        let system = TestDockPreviewSystem(
+            permissionState: .granted,
+            windows: [window]
+        )
+        let controller = DockPreviewController(
+            system: system,
+            sleeper: ImmediateDockPreviewSleeper()
+        )
+        let target = DockHoverTarget(
+            application: PreviewableApplication(
+                bundleIdentifier: "com.apple.TextEdit",
+                displayName: "TextEdit",
+                processIDs: [42]
+            ),
+            anchor: DockAnchor(
+                itemFrame: CGRect(x: 500, y: 0, width: 64, height: 64),
+                screenFrame: CGRect(x: 0, y: 0, width: 1440, height: 900),
+                edge: .bottom
+            )
+        )
+
+        let presented = expectation(description: "Window Preview Panel presented")
+        system.nextPresentExpectation = presented
+        controller.start()
+        system.send(.pointerMoved(.dock(target)))
+        await fulfillment(of: [presented], timeout: 1)
+        system.closePresentedWindow(window.id)
+
+        XCTAssertEqual(system.closedWindowIDs, [window.id])
+        XCTAssertNotNil(system.presentedPanel)
     }
 
     func testLeavingDockAndPanelDismissesPresentedWindows() async {
@@ -397,7 +438,9 @@ private final class TestDockPreviewSystem: DockPreviewSystem {
     let permissionState: DockPreviewPermissionState
     var windows: [SwitchableWindow]
     private var handler: (@MainActor (DockPreviewEvent) -> Void)?
+    private var onClose: (@MainActor (WindowIdentity) -> Void)?
     private(set) var presentedPanel: WindowPreviewPresentation?
+    private(set) var closedWindowIDs: [WindowIdentity] = []
     var nextUpdateExpectation: XCTestExpectation?
     var nextPresentExpectation: XCTestExpectation?
 
@@ -423,9 +466,11 @@ private final class TestDockPreviewSystem: DockPreviewSystem {
 
     func present(
         _ presentation: WindowPreviewPresentation,
-        onSelect: @escaping @MainActor (WindowIdentity) -> Void
+        onSelect: @escaping @MainActor (WindowIdentity) -> Void,
+        onClose: @escaping @MainActor (WindowIdentity) -> Void
     ) {
         presentedPanel = presentation
+        self.onClose = onClose
         nextPresentExpectation?.fulfill()
         nextPresentExpectation = nil
     }
@@ -441,6 +486,14 @@ private final class TestDockPreviewSystem: DockPreviewSystem {
     }
 
     func selectWindow(_ id: WindowIdentity) {}
+
+    func closeWindow(_ id: WindowIdentity) {
+        closedWindowIDs.append(id)
+    }
+
+    func closePresentedWindow(_ id: WindowIdentity) {
+        onClose?(id)
+    }
 
     func send(_ event: DockPreviewEvent) {
         handler?(event)

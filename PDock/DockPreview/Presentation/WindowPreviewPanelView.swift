@@ -6,17 +6,24 @@ import SwiftUI
 final class WindowPreviewPanelModel {
     var presentation: WindowPreviewPresentation
     private let onSelect: @MainActor (WindowIdentity) -> Void
+    private let onClose: @MainActor (WindowIdentity) -> Void
 
     init(
         presentation: WindowPreviewPresentation,
-        onSelect: @escaping @MainActor (WindowIdentity) -> Void
+        onSelect: @escaping @MainActor (WindowIdentity) -> Void,
+        onClose: @escaping @MainActor (WindowIdentity) -> Void
     ) {
         self.presentation = presentation
         self.onSelect = onSelect
+        self.onClose = onClose
     }
 
     func select(_ id: WindowIdentity) {
         onSelect(id)
+    }
+
+    func close(_ id: WindowIdentity) {
+        onClose(id)
     }
 }
 
@@ -30,9 +37,11 @@ struct WindowPreviewPanelView: View {
                 spacing: 12
             ) {
                 ForEach(model.presentation.cards) { card in
-                    WindowPreviewCardView(card: card) {
-                        model.select(card.id)
-                    }
+                    WindowPreviewCardView(
+                        card: card,
+                        select: { model.select(card.id) },
+                        close: { model.close(card.id) }
+                    )
                 }
             }
             .padding(12)
@@ -55,28 +64,68 @@ struct WindowPreviewPanelView: View {
 private struct WindowPreviewCardView: View {
     let card: WindowPreviewCard
     let select: () -> Void
+    let close: () -> Void
+    @State private var isThumbnailHovered = false
 
     var body: some View {
-        Button(action: select) {
-            VStack(alignment: .leading, spacing: 8) {
-                thumbnail
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .frame(height: 140)
-                    .clipped()
+        VStack(alignment: .leading, spacing: 8) {
+            Text(card.title)
+                .font(.system(.body, design: .default, weight: .medium))
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text(card.title)
-                    .font(.system(.body, design: .default, weight: .medium))
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            ZStack(alignment: .topTrailing) {
+                Button(action: select) {
+                    thumbnail
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .contentShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(card.title))
+
+                if isThumbnailHovered {
+                    Button(action: close) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(.primary)
+                            .frame(width: 24, height: 24)
+                            .background(.regularMaterial, in: Circle())
+                            .overlay {
+                                Circle()
+                                    .stroke(.separator.opacity(0.5), lineWidth: 1)
+                            }
+                            .contentShape(Circle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(
+                        Text(
+                            "Close window",
+                            comment: "Accessibility label for a preview card close button"
+                        )
+                    )
+                    .help(
+                        Text(
+                            "Close window",
+                            comment: "Help text for a preview card close button"
+                        )
+                    )
+                    .padding(8)
+                    .transition(.opacity)
+                }
             }
-            .padding(8)
-            .frame(minWidth: 200, maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(height: 140)
             .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 10))
-            .contentShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .onHover { hovering in
+                withAnimation(.easeInOut(duration: 0.12)) {
+                    isThumbnailHovered = hovering
+                }
+            }
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text(card.title))
+        .padding(8)
+        .frame(minWidth: 200, maxWidth: .infinity)
     }
 
     @ViewBuilder
