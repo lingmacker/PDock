@@ -82,8 +82,11 @@ final class WindowPreviewPanelController {
         let maximumColumns = max(1, Int((screen.width * 0.75) / 224))
         let columns = min(cardCount, min(maximumColumns, 4))
         let rows = Int(ceil(Double(cardCount) / Double(columns)))
-        let width = min(screen.width * 0.75, CGFloat(columns * 224 + 24))
-        let height = min(screen.height * 0.7, CGFloat(rows * 188 + 24))
+        let width = min(screen.width * 0.75, CGFloat(columns * 224 + 16))
+        let height = min(
+            screen.height * 0.7,
+            CGFloat(rows * 160 + max(rows - 1, 0) * 8 + 16)
+        )
         let frame = layout.frame(
             panelSize: CGSize(width: width, height: height),
             anchor: presentation.anchor

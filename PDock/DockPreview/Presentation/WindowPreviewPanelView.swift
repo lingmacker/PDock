@@ -33,8 +33,8 @@ struct WindowPreviewPanelView: View {
     var body: some View {
         ScrollView(.vertical) {
             LazyVGrid(
-                columns: [GridItem(.adaptive(minimum: 200, maximum: 280), spacing: 12)],
-                spacing: 12
+                columns: [GridItem(.adaptive(minimum: 200, maximum: 280), spacing: 8)],
+                spacing: 8
             ) {
                 ForEach(model.presentation.cards) { card in
                     WindowPreviewCardView(
@@ -44,7 +44,7 @@ struct WindowPreviewPanelView: View {
                     )
                 }
             }
-            .padding(12)
+            .padding(8)
         }
         .scrollIndicators(.automatic)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
@@ -68,7 +68,7 @@ private struct WindowPreviewCardView: View {
     @State private var isThumbnailHovered = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(card.title)
                 .font(.system(.body, design: .default, weight: .medium))
                 .lineLimit(1)
@@ -89,7 +89,7 @@ private struct WindowPreviewCardView: View {
                         Image(systemName: "xmark")
                             .font(.system(size: 10, weight: .bold))
                             .foregroundStyle(.primary)
-                            .frame(width: 24, height: 24)
+                            .frame(width: 22, height: 22)
                             .background(.regularMaterial, in: Circle())
                             .overlay {
                                 Circle()
@@ -110,7 +110,7 @@ private struct WindowPreviewCardView: View {
                             comment: "Help text for a preview card close button"
                         )
                     )
-                    .padding(8)
+                    .padding(6)
                     .transition(.opacity)
                 }
             }
@@ -124,7 +124,6 @@ private struct WindowPreviewCardView: View {
                 }
             }
         }
-        .padding(8)
         .frame(minWidth: 200, maxWidth: .infinity)
     }
 

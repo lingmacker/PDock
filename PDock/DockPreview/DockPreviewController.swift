@@ -282,7 +282,12 @@ public final class DockPreviewController {
                 closePanel()
             },
             onClose: { [weak self] id in
-                self?.system.closeWindow(id)
+                guard let self else {
+                    return
+                }
+                system.closeWindow(id)
+                currentTarget = nil
+                closePanel()
             }
         )
     }

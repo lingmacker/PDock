@@ -61,7 +61,7 @@ final class DockPreviewControllerTests: XCTestCase {
         )
     }
 
-    func testClosingPreviewClosesCorrespondingWindow() async {
+    func testClosingPreviewClosesWindowAndDismissesPreviewPanel() async {
         let window = SwitchableWindow(
             id: WindowIdentity(processID: 42, elementID: 10),
             title: "Draft",
@@ -97,7 +97,7 @@ final class DockPreviewControllerTests: XCTestCase {
         system.closePresentedWindow(window.id)
 
         XCTAssertEqual(system.closedWindowIDs, [window.id])
-        XCTAssertNotNil(system.presentedPanel)
+        XCTAssertNil(system.presentedPanel)
     }
 
     func testLeavingDockAndPanelDismissesPresentedWindows() async {
