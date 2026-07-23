@@ -40,10 +40,7 @@ struct WindowCaptureMatcher {
         _ window: SwitchableWindow,
         _ candidate: WindowCaptureCandidate
     ) -> Bool {
-        guard
-            window.id.processID == candidate.processID,
-            window.title == candidate.title
-        else {
+        guard window.id.processID == candidate.processID else {
             return false
         }
 
