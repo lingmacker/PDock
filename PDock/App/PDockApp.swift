@@ -24,5 +24,6 @@ final class PDockAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         model.dockPreview.stop()
+        model.windowSwitcher.stop()
     }
 }

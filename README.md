@@ -11,6 +11,7 @@ PDock 不替换系统 Dock，不修改 Dock 配置，也不接管应用启动、
 - 支持底部、左侧、右侧 Dock、自动隐藏和 Dock 放大
 - ScreenCaptureKit 低帧率实时缩略图
 - 点击卡片切换到准确的 Accessibility 窗口，悬停缩略图可关闭对应窗口
+- 可选接管 `⌘Tab`，以全局最近使用顺序逐窗口显示预览并切换；`⌘⇧Tab` 反向切换
 - 自适应网格、内部滚动和原比例缩略图
 - 菜单栏启用/暂停、权限修复和登录启动设置
 - 简体中文与英文
@@ -87,6 +88,7 @@ make build \
 4. 如果屏幕录制权限未立即生效，退出并重新打开 PDock。
 5. 将指针悬停在系统 Dock 中正在运行且拥有窗口的应用图标上。
 6. 点击 Window Preview Card 切换到目标窗口。
+7. 如需逐窗口快捷切换，在设置中启用“⌘Tab 窗口切换”；该功能默认关闭。
 
 PDock 自身只显示菜单栏项目，不显示 Dock 图标。登录启动默认关闭，可在设置中主动开启。
 
@@ -107,6 +109,7 @@ PDock/
 ├── Permissions
 ├── Resources
 ├── Settings
+├── WindowSwitcher
 └── SupportingFiles
 PDockTests/
 └── DockPreview

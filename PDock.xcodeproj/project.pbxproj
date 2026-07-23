@@ -34,6 +34,8 @@
 		B0000000000000000000001A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0000000000000000000000C /* InfoPlist.strings */; };
 		B0000000000000000000001E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000022 /* Assets.xcassets */; };
 		B0000000000000000000001F /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000023 /* AppIcon.icon */; };
+		B00000000000000000000020 /* WindowSwitcherController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000024 /* WindowSwitcherController.swift */; };
+		B00000000000000000000021 /* WindowSwitcherPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000025 /* WindowSwitcherPanel.swift */; };
 		B0000000000000000000001B /* DockPreviewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001D /* DockPreviewControllerTests.swift */; };
 		B0000000000000000000001C /* WindowCaptureMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001E /* WindowCaptureMatcherTests.swift */; };
 		B0000000000000000000001D /* WindowPreviewLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000001F /* WindowPreviewLayoutTests.swift */; };
@@ -77,6 +79,8 @@
 		A00000000000000000000019 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A00000000000000000000022 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A00000000000000000000023 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		A00000000000000000000024 /* WindowSwitcherController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSwitcherController.swift; sourceTree = "<group>"; };
+		A00000000000000000000025 /* WindowSwitcherPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSwitcherPanel.swift; sourceTree = "<group>"; };
 		A0000000000000000000001A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A0000000000000000000001B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		A0000000000000000000001C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,7 +98,7 @@
 
 /* Begin PBXGroup section */
 		C00000000000000000000002 = {isa = PBXGroup; children = (C00000000000000000000003 /* PDock */, C00000000000000000000010 /* PDockTests */, C00000000000000000000011 /* Products */); sourceTree = "<group>"; };
-		C00000000000000000000003 /* PDock */ = {isa = PBXGroup; path = PDock; sourceTree = "<group>"; children = (C00000000000000000000004 /* App */, C00000000000000000000005 /* DockPreview */, C0000000000000000000000D /* Permissions */, C0000000000000000000000E /* MenuBar */, C0000000000000000000000F /* Settings */, C00000000000000000000012 /* LaunchAtLogin */, C0000000000000000000000B /* Resources */, C00000000000000000000013 /* SupportingFiles */); };
+		C00000000000000000000003 /* PDock */ = {isa = PBXGroup; path = PDock; sourceTree = "<group>"; children = (C00000000000000000000004 /* App */, C00000000000000000000005 /* DockPreview */, C00000000000000000000015 /* WindowSwitcher */, C0000000000000000000000D /* Permissions */, C0000000000000000000000E /* MenuBar */, C0000000000000000000000F /* Settings */, C00000000000000000000012 /* LaunchAtLogin */, C0000000000000000000000B /* Resources */, C00000000000000000000013 /* SupportingFiles */); };
 		C00000000000000000000004 /* App */ = {isa = PBXGroup; path = App; sourceTree = "<group>"; children = (A00000000000000000000001, A00000000000000000000002); };
 		C00000000000000000000005 /* DockPreview */ = {isa = PBXGroup; path = DockPreview; sourceTree = "<group>"; children = (A00000000000000000000003, A00000000000000000000004, A00000000000000000000005, A00000000000000000000006, C00000000000000000000006 /* Model */, C00000000000000000000007 /* DockObservation */, C00000000000000000000008 /* WindowDiscovery */, C00000000000000000000009 /* ThumbnailCapture */, C0000000000000000000000A /* Presentation */); };
 		C00000000000000000000006 /* Model */ = {isa = PBXGroup; path = Model; sourceTree = "<group>"; children = (A00000000000000000000007, A00000000000000000000008, A00000000000000000000009, A0000000000000000000000A); };
@@ -112,6 +116,7 @@
 		C00000000000000000000012 /* LaunchAtLogin */ = {isa = PBXGroup; path = LaunchAtLogin; sourceTree = "<group>"; children = (A00000000000000000000018); };
 		C00000000000000000000013 /* SupportingFiles */ = {isa = PBXGroup; path = SupportingFiles; sourceTree = "<group>"; children = (A0000000000000000000001C); };
 		C00000000000000000000014 /* DockPreview */ = {isa = PBXGroup; path = DockPreview; sourceTree = "<group>"; children = (A0000000000000000000001D, A0000000000000000000001E, A0000000000000000000001F); };
+		C00000000000000000000015 /* WindowSwitcher */ = {isa = PBXGroup; path = WindowSwitcher; sourceTree = "<group>"; children = (A00000000000000000000024, A00000000000000000000025); };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,7 +134,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D00000000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000001, B00000000000000000000002, B00000000000000000000003, B00000000000000000000004, B00000000000000000000005, B00000000000000000000006, B00000000000000000000007, B00000000000000000000008, B00000000000000000000009, B0000000000000000000000A, B0000000000000000000000B, B0000000000000000000000C, B0000000000000000000000D, B0000000000000000000000E, B0000000000000000000000F, B00000000000000000000010, B00000000000000000000011, B00000000000000000000012, B00000000000000000000013, B00000000000000000000014, B00000000000000000000015, B00000000000000000000016, B00000000000000000000017, B00000000000000000000018); runOnlyForDeploymentPostprocessing = 0; };
+		D00000000000000000000003 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B00000000000000000000001, B00000000000000000000002, B00000000000000000000003, B00000000000000000000004, B00000000000000000000005, B00000000000000000000006, B00000000000000000000007, B00000000000000000000008, B00000000000000000000009, B0000000000000000000000A, B0000000000000000000000B, B0000000000000000000000C, B0000000000000000000000D, B0000000000000000000000E, B0000000000000000000000F, B00000000000000000000010, B00000000000000000000011, B00000000000000000000012, B00000000000000000000013, B00000000000000000000014, B00000000000000000000015, B00000000000000000000016, B00000000000000000000017, B00000000000000000000018, B00000000000000000000020, B00000000000000000000021); runOnlyForDeploymentPostprocessing = 0; };
 		D00000000000000000000004 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (B0000000000000000000001B, B0000000000000000000001C, B0000000000000000000001D); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 

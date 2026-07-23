@@ -394,6 +394,22 @@ final class DockPreviewControllerTests: XCTestCase {
         XCTAssertEqual(restoredModel.previewTiming.dismissalDelayMilliseconds, 800)
     }
 
+    func testWindowSwitcherPreferenceDefaultsOffAndPersists() {
+        let suiteName = "PDockTests.WindowSwitcher.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defer {
+            defaults.removePersistentDomain(forName: suiteName)
+        }
+
+        let model = PDockApplicationModel(defaults: defaults)
+        XCTAssertFalse(model.windowSwitcherEnabled)
+
+        model.setWindowSwitcherEnabled(true)
+        let restoredModel = PDockApplicationModel(defaults: defaults)
+
+        XCTAssertTrue(restoredModel.windowSwitcherEnabled)
+    }
+
     func testWindowActivatorFocusesTheSelectedWindowAtApplicationLevel() {
         let firstID = WindowIdentity(processID: 42, elementID: 1)
         let secondID = WindowIdentity(processID: 42, elementID: 2)

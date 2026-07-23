@@ -41,6 +41,19 @@ struct SettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section("Window Switcher") {
+                Toggle(
+                    "Enable ⌘Tab Window Switching",
+                    isOn: Binding(
+                        get: { model.windowSwitcherEnabled },
+                        set: model.setWindowSwitcherEnabled
+                    )
+                )
+                Text("Replaces the macOS app switcher with window-by-window switching.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Section("Permissions") {
                 permissionRow(
                     title: "Accessibility",
@@ -86,7 +99,7 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .padding()
-        .frame(width: 520, height: 590)
+        .frame(width: 520, height: 690)
         .task {
             model.refreshPermissions()
             model.launchAtLogin.refresh()

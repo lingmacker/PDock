@@ -7,8 +7,10 @@ final class PDockApplicationModel {
     let permissions = PermissionController()
     let launchAtLogin = LaunchAtLoginController()
     let dockPreview: DockPreviewController
+    let windowSwitcher: WindowSwitcherController
 
     private(set) var previewsEnabled: Bool
+    private(set) var windowSwitcherEnabled: Bool
     private(set) var previewTiming: DockPreviewTiming
     private var hasStarted = false
     private var permissionPollingTask: Task<Void, Never>?
@@ -23,6 +25,7 @@ final class PDockApplicationModel {
         } else {
             previewsEnabled = defaults.bool(forKey: "previewsEnabled")
         }
+        windowSwitcherEnabled = defaults.bool(forKey: "windowSwitcherEnabled")
         let initialTiming = DockPreviewTiming(
             presentationDelayMilliseconds: defaults.object(
                 forKey: "previewPresentationDelayMilliseconds"
@@ -41,23 +44,34 @@ final class PDockApplicationModel {
             thumbnailCapturer: ScreenCaptureThumbnailCapturer(),
             timing: initialTiming
         )
+        windowSwitcher = WindowSwitcherController()
+        windowSwitcher.setPresentationChangedHandler { [weak self] presented in
+            guard let self else { return }
+            if presented {
+                dockPreview.stop()
+            } else {
+                synchronizePreviewState()
+            }
+        }
     }
 
     var statusText: String {
-        if !previewsEnabled {
+        if !previewsEnabled, !windowSwitcherEnabled {
             return String(localized: "Paused", comment: "Menu bar status when previews are disabled")
         }
         if !permissions.allGranted {
             return String(localized: "Permissions required", comment: "Menu bar permission status")
         }
-        switch dockPreview.state {
-        case .running:
+        if dockPreview.state == .running || windowSwitcher.state == .running {
             return String(localized: "Running", comment: "Menu bar status when previews are active")
-        case .failed:
-            return String(localized: "Error", comment: "Menu bar status when previews failed")
-        case .stopped, .needsPermissions:
-            return String(localized: "Paused", comment: "Menu bar status when previews are inactive")
         }
+        if case .failed = dockPreview.state {
+            return String(localized: "Error", comment: "Menu bar status when previews failed")
+        }
+        if windowSwitcher.state == .failed {
+            return String(localized: "Error", comment: "Menu bar status when previews failed")
+        }
+        return String(localized: "Paused", comment: "Menu bar status when previews are inactive")
     }
 
     func start() {
@@ -67,6 +81,7 @@ final class PDockApplicationModel {
         hasStarted = true
         permissions.refresh()
         synchronizePreviewState()
+        synchronizeWindowSwitcherState()
         if !permissions.allGranted {
             showOnboarding()
         }
@@ -80,6 +95,7 @@ final class PDockApplicationModel {
                 permissions.refresh()
                 if permissions.allGranted != wasGranted {
                     synchronizePreviewState()
+                    synchronizeWindowSwitcherState()
                 }
             }
         }
@@ -89,6 +105,15 @@ final class PDockApplicationModel {
         previewsEnabled = enabled
         defaults.set(enabled, forKey: "previewsEnabled")
         synchronizePreviewState()
+    }
+
+    func setWindowSwitcherEnabled(_ enabled: Bool) {
+        windowSwitcherEnabled = enabled
+        defaults.set(enabled, forKey: "windowSwitcherEnabled")
+        synchronizeWindowSwitcherState()
+        if hasStarted, enabled, !permissions.allGranted {
+            showOnboarding()
+        }
     }
 
     func setPreviewPresentationDelayMilliseconds(_ value: Double) {
@@ -133,10 +158,12 @@ final class PDockApplicationModel {
     func refreshPermissions() {
         permissions.refresh()
         synchronizePreviewState()
+        synchronizeWindowSwitcherState()
     }
 
     func quit() {
         dockPreview.stop()
+        windowSwitcher.stop()
         NSApplication.shared.terminate(nil)
     }
 
@@ -154,10 +181,16 @@ final class PDockApplicationModel {
     }
 
     private func synchronizePreviewState() {
-        if previewsEnabled, permissions.allGranted {
+        if previewsEnabled, permissions.allGranted, !windowSwitcher.isPresented {
             dockPreview.start()
         } else {
             dockPreview.stop()
         }
+    }
+
+    private func synchronizeWindowSwitcherState() {
+        windowSwitcher.refreshPermissionsAndState(
+            enabled: windowSwitcherEnabled && permissions.allGranted
+        )
     }
 }

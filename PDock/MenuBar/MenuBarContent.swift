@@ -19,6 +19,14 @@ struct MenuBarContent: View {
                     )
                 )
 
+            Toggle(
+                "Enable ⌘Tab Window Switching",
+                isOn: Binding(
+                    get: { model.windowSwitcherEnabled },
+                    set: model.setWindowSwitcherEnabled
+                )
+            )
+
             if !model.permissions.allGranted {
                 Button(action: model.showOnboarding) {
                     Text("Complete Permission Setup")

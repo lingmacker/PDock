@@ -11,6 +11,7 @@
     "Dock Preview" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Dock Preview" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Dock 窗口预览" } } } },
     "Done" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "完成" } } } },
     "Enable Dock Previews" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable Dock Previews" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "启用 Dock 窗口预览" } } } },
+    "Enable ⌘Tab Window Switching" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable ⌘Tab Window Switching" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "启用 ⌘Tab 窗口切换" } } } },
     "Error" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Error" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "错误" } } } },
     "General" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "General" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "通用" } } } },
     "Grant Access" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Grant Access" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "授予权限" } } } },
@@ -30,6 +31,7 @@
     "Quit PDock" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Quit PDock" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "退出 PDock" } } } },
     "Refresh Permission Status" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Refresh Permission Status" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "刷新权限状态" } } } },
     "Refresh Status" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Refresh Status" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "刷新状态" } } } },
+    "Replaces the macOS app switcher with window-by-window switching." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Replaces the macOS app switcher with window-by-window switching." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将 macOS 应用切换器替换为逐窗口切换。" } } } },
     "Request Again" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Request Again" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "重新请求" } } } },
     "Required" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Required" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要授权" } } } },
     "Required to create Window Preview Card thumbnails. Images stay in memory and are never uploaded." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Required to create Window Preview Card thumbnails. Images stay in memory and are never uploaded." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用于创建窗口预览卡片缩略图。图像仅保留在内存中，绝不会上传。" } } } },
@@ -44,6 +46,7 @@
     "Version" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "版本" } } } },
     "Welcome to PDock" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome to PDock" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "欢迎使用 PDock" } } } },
     "Window previews are captured only while visible, held only in memory, and never sent over the network." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Window previews are captured only while visible, held only in memory, and never sent over the network." } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "窗口预览仅在可见时捕获，只保留在内存中，绝不会通过网络发送。" } } } },
+    "Window Switcher" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Window Switcher" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "窗口切换器" } } } },
     "Windows for %@" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Windows for %@" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "%@ 的窗口" } } } }
   },
   "version" : "1.0"
