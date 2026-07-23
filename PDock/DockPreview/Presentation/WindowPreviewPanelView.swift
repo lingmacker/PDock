@@ -69,11 +69,20 @@ private struct WindowPreviewCardView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(card.title)
-                .font(.system(.body, design: .default, weight: .medium))
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack(spacing: 7) {
+                if let applicationIcon = card.applicationIcon {
+                    Image(nsImage: applicationIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                        .accessibilityHidden(true)
+                }
+                Text(card.title)
+                    .font(.system(.body, design: .default, weight: .medium))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
 
             ZStack(alignment: .topTrailing) {
                 Button(action: select) {

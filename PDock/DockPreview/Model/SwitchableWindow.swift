@@ -1,3 +1,4 @@
+import AppKit
 import CoreGraphics
 import Foundation
 
@@ -23,6 +24,7 @@ struct WindowPreviewCard: Identifiable, @unchecked Sendable {
     let id: WindowIdentity
     var title: String
     var thumbnail: WindowThumbnail
+    var applicationIcon: NSImage? = nil
 }
 
 struct WindowPreviewPresentation: @unchecked Sendable {

@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 
@@ -225,9 +226,17 @@ public final class DockPreviewController {
 
         let recordsByID = Dictionary(uniqueKeysWithValues: windows.map { ($0.id, $0) })
         let existingIDs = Set(presentation.cards.map(\.id))
+        let applicationIcon = icon(for: target.application)
         let newCards = windows
             .filter { !existingIDs.contains($0.id) }
-            .map { WindowPreviewCard(id: $0.id, title: $0.title, thumbnail: .loading) }
+            .map {
+                WindowPreviewCard(
+                    id: $0.id,
+                    title: $0.title,
+                    thumbnail: .loading,
+                    applicationIcon: applicationIcon
+                )
+            }
         let survivingCards = presentation.cards.compactMap { card -> WindowPreviewCard? in
             guard let record = recordsByID[card.id] else {
                 return nil
@@ -266,7 +275,12 @@ public final class DockPreviewController {
             application: latestTarget.application,
             anchor: latestTarget.anchor,
             cards: windows.map {
-                WindowPreviewCard(id: $0.id, title: $0.title, thumbnail: .loading)
+                WindowPreviewCard(
+                    id: $0.id,
+                    title: $0.title,
+                    thumbnail: .loading,
+                    applicationIcon: icon(for: latestTarget.application)
+                )
             }
         )
         currentPresentation = presentation
@@ -347,4 +361,11 @@ public final class DockPreviewController {
         system.dismissPanel()
     }
 
+    private func icon(for application: PreviewableApplication) -> NSImage? {
+        application.processIDs.compactMap {
+            NSRunningApplication(processIdentifier: $0)?.icon
+        }.first ?? NSWorkspace.shared.urlForApplication(
+            withBundleIdentifier: application.bundleIdentifier
+        ).map { NSWorkspace.shared.icon(forFile: $0.path) }
+    }
 }
