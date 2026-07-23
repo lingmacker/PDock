@@ -6,6 +6,21 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
+            Section("General") {
+                Toggle(
+                    "Launch at Login",
+                    isOn: Binding(
+                        get: { model.launchAtLogin.isEnabled },
+                        set: model.setLaunchAtLoginEnabled
+                    )
+                )
+                if let errorMessage = model.launchAtLogin.errorMessage {
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+            }
+
             Section("Dock Preview") {
                 Toggle(
                     "Enable Dock Previews",
@@ -67,21 +82,6 @@ struct SettingsView: View {
                 )
                 Button("Open Permission Setup", action: model.showOnboarding)
                 Button("Refresh Permission Status", action: model.refreshPermissions)
-            }
-
-            Section("General") {
-                Toggle(
-                    "Launch at Login",
-                    isOn: Binding(
-                        get: { model.launchAtLogin.isEnabled },
-                        set: model.setLaunchAtLoginEnabled
-                    )
-                )
-                if let errorMessage = model.launchAtLogin.errorMessage {
-                    Text(errorMessage)
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                }
             }
 
             Section("About") {
