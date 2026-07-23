@@ -6,6 +6,8 @@ DESTINATION ?= platform=macOS,arch=arm64
 CODE_SIGN_IDENTITY ?= -
 CODE_SIGN_STYLE ?= Manual
 DEVELOPMENT_TEAM ?=
+MARKETING_VERSION ?=
+CURRENT_PROJECT_VERSION ?=
 INSTALL_DIR ?= /Applications
 
 APP_PATH := $(DERIVED_DATA)/Build/Products/$(CONFIGURATION)/PDock.app
@@ -21,13 +23,16 @@ SIGNING_ARGS := \
 	CODE_SIGN_STYLE="$(CODE_SIGN_STYLE)" \
 	CODE_SIGN_IDENTITY="$(CODE_SIGN_IDENTITY)" \
 	DEVELOPMENT_TEAM="$(DEVELOPMENT_TEAM)"
+VERSION_ARGS := \
+	$(if $(MARKETING_VERSION),MARKETING_VERSION="$(MARKETING_VERSION)") \
+	$(if $(CURRENT_PROJECT_VERSION),CURRENT_PROJECT_VERSION="$(CURRENT_PROJECT_VERSION)")
 
 .DEFAULT_GOAL := build
 
 .PHONY: build install test run clean open-project print-app help
 
 build:
-	$(XCODEBUILD) $(XCODE_ARGS) $(SIGNING_ARGS) build
+	$(XCODEBUILD) $(XCODE_ARGS) $(SIGNING_ARGS) $(VERSION_ARGS) build
 	@printf 'Built PDock: %s\n' "$(APP_PATH)"
 
 install: build
@@ -66,4 +71,5 @@ help:
 		'make clean                 Remove generated build products' \
 		'make open-project          Open PDock.xcodeproj in Xcode' \
 		'make print-app             Print the built app path' \
+		'make build MARKETING_VERSION=1.2.3 CURRENT_PROJECT_VERSION=42' \
 		'make build CONFIGURATION=Release CODE_SIGN_IDENTITY="Developer ID Application: …" DEVELOPMENT_TEAM=TEAMID'
