@@ -8,15 +8,18 @@ private final class WindowSwitcherPanelModel {
     var cards: [WindowSwitcherCard]
     var selectedID: WindowIdentity
     let onSelect: (WindowIdentity) -> Void
+    let onClose: (WindowIdentity) -> Void
 
     init(
         cards: [WindowSwitcherCard],
         selectedID: WindowIdentity,
-        onSelect: @escaping (WindowIdentity) -> Void
+        onSelect: @escaping (WindowIdentity) -> Void,
+        onClose: @escaping (WindowIdentity) -> Void
     ) {
         self.cards = cards
         self.selectedID = selectedID
         self.onSelect = onSelect
+        self.onClose = onClose
     }
 }
 
@@ -32,10 +35,12 @@ private struct WindowSwitcherPanelView: View {
                     spacing: 12
                 ) {
                     ForEach(model.cards) { card in
-                        Button { model.onSelect(card.id) } label: {
-                            cardView(card)
-                        }
-                        .buttonStyle(.plain)
+                        WindowSwitcherCardView(
+                            card: card,
+                            isSelected: card.id == model.selectedID,
+                            select: { model.onSelect(card.id) },
+                            close: { model.onClose(card.id) }
+                        )
                         .id(card.id)
                     }
                 }
@@ -53,8 +58,17 @@ private struct WindowSwitcherPanelView: View {
                 .stroke(.separator.opacity(0.6), lineWidth: 1)
         }
     }
+}
 
-    private func cardView(_ card: WindowSwitcherCard) -> some View {
+private struct WindowSwitcherCardView: View {
+    let card: WindowSwitcherCard
+    let isSelected: Bool
+    let select: () -> Void
+    let close: () -> Void
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isHovered = false
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(nsImage: card.applicationIcon)
@@ -65,31 +79,49 @@ private struct WindowSwitcherPanelView: View {
                     .font(.system(.body, weight: .medium))
                     .lineLimit(1)
                     .truncationMode(.tail)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Button(action: close) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 22, height: 22)
+                        .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Close window"))
+                .help(Text("Close window"))
+                .opacity(isHovered ? 1 : 0)
+                .allowsHitTesting(isHovered)
             }
 
-            Group {
-                switch card.thumbnail {
-                case .loading:
-                    ProgressView()
-                case let .available(image):
-                    Image(decorative: image, scale: 1)
-                        .resizable()
-                        .scaledToFit()
-                case .unavailable:
-                    VStack(spacing: 6) {
-                        Image(systemName: "rectangle.slash")
-                        Text("Preview unavailable")
-                            .font(.caption)
+            Button(action: select) {
+                Group {
+                    switch card.thumbnail {
+                    case .loading:
+                        ProgressView()
+                    case let .available(image):
+                        Image(decorative: image, scale: 1)
+                            .resizable()
+                            .scaledToFit()
+                    case .unavailable:
+                        VStack(spacing: 6) {
+                            Image(systemName: "rectangle.slash")
+                            Text("Preview unavailable")
+                                .font(.caption)
+                        }
+                        .foregroundStyle(.secondary)
                     }
-                    .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(height: 154)
+                .contentShape(Rectangle())
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .frame(height: 154)
+            .buttonStyle(.plain)
         }
         .padding(10)
         .background(
-            card.id == model.selectedID
+            isSelected
                 ? Color.accentColor.opacity(0.18)
                 : Color.primary.opacity(0.04),
             in: RoundedRectangle(cornerRadius: 12)
@@ -97,14 +129,19 @@ private struct WindowSwitcherPanelView: View {
         .overlay {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(
-                    card.id == model.selectedID
+                    isSelected
                         ? Color.accentColor
                         : Color(nsColor: .separatorColor).opacity(0.35),
-                    lineWidth: card.id == model.selectedID ? 3 : 1
+                    lineWidth: isSelected ? 3 : 1
                 )
         }
         .contentShape(RoundedRectangle(cornerRadius: 12))
         .accessibilityLabel("\(card.applicationName), \(card.title)")
+        .onHover { hovering in
+            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.12)) {
+                isHovered = hovering
+            }
+        }
     }
 }
 
@@ -112,17 +149,20 @@ private struct WindowSwitcherPanelView: View {
 final class WindowSwitcherPanelController {
     private var panel: NSPanel?
     private var model: WindowSwitcherPanelModel?
+    private var presentationScreen: NSScreen?
 
     func present(
         cards: [WindowSwitcherCard],
         selectedID: WindowIdentity,
         screen: NSScreen,
-        onSelect: @escaping (WindowIdentity) -> Void
+        onSelect: @escaping (WindowIdentity) -> Void,
+        onClose: @escaping (WindowIdentity) -> Void
     ) {
         let model = WindowSwitcherPanelModel(
             cards: cards,
             selectedID: selectedID,
-            onSelect: onSelect
+            onSelect: onSelect,
+            onClose: onClose
         )
         let panel = NSPanel(
             contentRect: .zero,
@@ -151,11 +191,13 @@ final class WindowSwitcherPanelController {
         )
         self.model = model
         self.panel = panel
+        presentationScreen = screen
         panel.orderFrontRegardless()
     }
 
     func update(cards: [WindowSwitcherCard], selectedID: WindowIdentity) {
         guard let model else { return }
+        let cardCountChanged = model.cards.count != cards.count
         let thumbnails = Dictionary(
             uniqueKeysWithValues: model.cards.map { ($0.id, $0.thumbnail) }
         )
@@ -165,6 +207,9 @@ final class WindowSwitcherPanelController {
             return updated
         }
         model.selectedID = selectedID
+        if cardCountChanged {
+            resizePanel(cardCount: cards.count)
+        }
     }
 
     func select(_ id: WindowIdentity) {
@@ -188,6 +233,23 @@ final class WindowSwitcherPanelController {
         panel?.orderOut(nil)
         panel = nil
         model = nil
+        presentationScreen = nil
+    }
+
+    private func resizePanel(cardCount: Int) {
+        guard let panel, let screen = presentationScreen ?? panel.screen else { return }
+        let size = panelSize(cardCount: cardCount, screen: screen.visibleFrame.size)
+        let frame = CGRect(
+            x: screen.visibleFrame.midX - size.width / 2,
+            y: screen.visibleFrame.midY - size.height / 2,
+            width: size.width,
+            height: size.height
+        )
+        panel.setFrame(
+            frame,
+            display: true,
+            animate: !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        )
     }
 
     private func panelSize(cardCount: Int, screen: CGSize) -> CGSize {

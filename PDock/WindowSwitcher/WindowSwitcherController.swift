@@ -181,7 +181,8 @@ final class WindowSwitcherController {
             cards: makeCards(),
             selectedID: windows[selectedIndex].id,
             screen: presentationScreen(),
-            onSelect: { [weak self] id in self?.selectAndCommit(id) }
+            onSelect: { [weak self] id in self?.selectAndCommit(id) },
+            onClose: { [weak self] id in self?.closeWindow(id) }
         )
         startMouseMonitoring()
         startCapturing()
@@ -207,6 +208,34 @@ final class WindowSwitcherController {
         guard let index = windows.firstIndex(where: { $0.id == id }) else { return }
         selectedIndex = index
         commitSwitch()
+    }
+
+    private func closeWindow(_ id: WindowIdentity) {
+        guard
+            let index = windows.firstIndex(where: { $0.id == id }),
+            let closeButton: AXUIElement = accessibilityAttribute(
+                windows[index].element,
+                kAXCloseButtonAttribute
+            )
+        else { return }
+
+        guard AXUIElementPerformAction(
+            closeButton,
+            kAXPressAction as CFString
+        ) == .success else { return }
+        windows.remove(at: index)
+        recentWindowIDs.removeAll { $0 == id }
+
+        guard !windows.isEmpty else {
+            finishPresentation()
+            return
+        }
+        if index < selectedIndex {
+            selectedIndex -= 1
+        } else if selectedIndex >= windows.count {
+            selectedIndex = windows.count - 1
+        }
+        panelController.update(cards: makeCards(), selectedID: windows[selectedIndex].id)
     }
 
     private func cancelSwitch() {

@@ -65,7 +65,8 @@ private struct WindowPreviewCardView: View {
     let card: WindowPreviewCard
     let select: () -> Void
     let close: () -> Void
-    @State private var isThumbnailHovered = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isHovered = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -82,58 +83,54 @@ private struct WindowPreviewCardView: View {
                     .lineLimit(1)
                     .truncationMode(.tail)
                     .frame(maxWidth: .infinity, alignment: .leading)
+
+                closeButton
+                    .opacity(isHovered ? 1 : 0)
+                    .allowsHitTesting(isHovered)
             }
 
-            ZStack(alignment: .topTrailing) {
-                Button(action: select) {
-                    thumbnail
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .contentShape(RoundedRectangle(cornerRadius: 10))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(Text(card.title))
-
-                if isThumbnailHovered {
-                    Button(action: close) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundStyle(.primary)
-                            .frame(width: 22, height: 22)
-                            .background(.regularMaterial, in: Circle())
-                            .overlay {
-                                Circle()
-                                    .stroke(.separator.opacity(0.5), lineWidth: 1)
-                            }
-                            .contentShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(
-                        Text(
-                            "Close window",
-                            comment: "Accessibility label for a preview card close button"
-                        )
-                    )
-                    .help(
-                        Text(
-                            "Close window",
-                            comment: "Help text for a preview card close button"
-                        )
-                    )
-                    .padding(6)
-                    .transition(.opacity)
-                }
+            Button(action: select) {
+                thumbnail
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(RoundedRectangle(cornerRadius: 10))
             }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text(card.title))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .frame(height: 176)
             .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 10))
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .onHover { hovering in
-                withAnimation(.easeInOut(duration: 0.12)) {
-                    isThumbnailHovered = hovering
-                }
-            }
         }
         .frame(minWidth: 200, maxWidth: .infinity)
+        .contentShape(Rectangle())
+        .onHover { hovering in
+            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.12)) {
+                isHovered = hovering
+            }
+        }
+    }
+
+    private var closeButton: some View {
+        Button(action: close) {
+            Image(systemName: "xmark")
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(.secondary)
+                .frame(width: 22, height: 22)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(
+            Text(
+                "Close window",
+                comment: "Accessibility label for a preview card close button"
+            )
+        )
+        .help(
+            Text(
+                "Close window",
+                comment: "Help text for a preview card close button"
+            )
+        )
     }
 
     @ViewBuilder
