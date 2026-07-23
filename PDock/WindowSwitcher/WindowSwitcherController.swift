@@ -266,7 +266,10 @@ final class WindowSwitcherController {
         windows.map {
             WindowSwitcherCard(
                 id: $0.id,
-                title: $0.title,
+                title: windowPreviewTitle(
+                    applicationName: $0.applicationName,
+                    windowTitle: $0.title
+                ),
                 applicationName: $0.applicationName,
                 applicationIcon: $0.applicationIcon,
                 thumbnail: .loading
@@ -329,9 +332,21 @@ final class WindowSwitcherController {
             for element in elements {
                 let role: String? = accessibilityAttribute(element, kAXRoleAttribute)
                 let subrole: String? = accessibilityAttribute(element, kAXSubroleAttribute)
+                let isMain: Bool = accessibilityAttribute(
+                    element,
+                    kAXMainAttribute
+                ) ?? false
+                let isMinimized: Bool = accessibilityAttribute(
+                    element,
+                    kAXMinimizedAttribute
+                ) ?? false
                 guard
-                    role == (kAXWindowRole as String),
-                    subrole == (kAXStandardWindowSubrole as String),
+                    isSwitchableWindow(
+                        role: role,
+                        subrole: subrole,
+                        isMain: isMain,
+                        isMinimized: isMinimized
+                    ),
                     let frame = accessibilityFrame(element)
                 else { continue }
                 let id = WindowIdentity(
@@ -348,16 +363,18 @@ final class WindowSwitcherController {
                         applicationName: name,
                         applicationIcon: icon,
                         frame: frame,
-                        isMinimized: accessibilityAttribute(
-                            element,
-                            kAXMinimizedAttribute
-                        ) ?? false,
+                        isMinimized: isMinimized,
                         element: element
                     )
                 )
             }
         }
-        return result
+        let activeIDs = Set(
+            activeWindowsCollapsingTabGroups(
+                result.map(\.switchableWindow)
+            ).map(\.id)
+        )
+        return result.filter { activeIDs.contains($0.id) }
     }
 
     private func orderByRecentUse() {

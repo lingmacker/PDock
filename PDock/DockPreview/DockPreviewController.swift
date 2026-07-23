@@ -232,7 +232,10 @@ public final class DockPreviewController {
             .map {
                 WindowPreviewCard(
                     id: $0.id,
-                    title: $0.title,
+                    title: windowPreviewTitle(
+                        applicationName: target.application.displayName,
+                        windowTitle: $0.title
+                    ),
                     thumbnail: .loading,
                     applicationIcon: applicationIcon
                 )
@@ -242,7 +245,10 @@ public final class DockPreviewController {
                 return nil
             }
             var updated = card
-            updated.title = record.title
+            updated.title = windowPreviewTitle(
+                applicationName: target.application.displayName,
+                windowTitle: record.title
+            )
             return updated
         }
         presentation.cards = newCards + survivingCards
@@ -277,7 +283,10 @@ public final class DockPreviewController {
             cards: windows.map {
                 WindowPreviewCard(
                     id: $0.id,
-                    title: $0.title,
+                    title: windowPreviewTitle(
+                        applicationName: latestTarget.application.displayName,
+                        windowTitle: $0.title
+                    ),
                     thumbnail: .loading,
                     applicationIcon: icon(for: latestTarget.application)
                 )

@@ -14,6 +14,33 @@ struct SwitchableWindow: Identifiable, Sendable {
     var isMinimized: Bool
 }
 
+func activeWindowsCollapsingTabGroups(
+    _ windows: [SwitchableWindow]
+) -> [SwitchableWindow] {
+    var result: [SwitchableWindow] = []
+    for window in windows {
+        if let index = result.firstIndex(where: {
+            $0.id.processID == window.id.processID
+                && framesRepresentSameTabGroup($0.frame, window.frame)
+        }) {
+            if result[index].isMinimized, !window.isMinimized {
+                result[index] = window
+            }
+        } else {
+            result.append(window)
+        }
+    }
+    return result
+}
+
+private func framesRepresentSameTabGroup(_ lhs: CGRect, _ rhs: CGRect) -> Bool {
+    let tolerance = 2.0
+    return abs(lhs.minX - rhs.minX) <= tolerance
+        && abs(lhs.minY - rhs.minY) <= tolerance
+        && abs(lhs.width - rhs.width) <= tolerance
+        && abs(lhs.height - rhs.height) <= tolerance
+}
+
 enum WindowThumbnail: @unchecked Sendable {
     case loading
     case available(CGImage)

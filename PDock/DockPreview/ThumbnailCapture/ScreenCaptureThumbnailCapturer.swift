@@ -3,6 +3,7 @@ import ScreenCaptureKit
 
 actor ScreenCaptureThumbnailCapturer: WindowThumbnailCapturing {
     private let matcher = WindowCaptureMatcher()
+    private var preferredCaptureIDs: [WindowIdentity: UInt32] = [:]
 
     func thumbnails(
         for windows: [SwitchableWindow]
@@ -24,10 +25,20 @@ actor ScreenCaptureThumbnailCapturer: WindowThumbnailCapturing {
                     windowID: window.windowID,
                     processID: application.processID,
                     title: window.title ?? "",
-                    frame: window.frame
+                    frame: window.frame,
+                    isOnScreen: window.isOnScreen
                 )
             }
-            let matches = matcher.match(windows: windows, candidates: candidates)
+            let matches = matcher.match(
+                windows: windows,
+                candidates: candidates,
+                preferredCandidateIDs: preferredCaptureIDs
+            )
+            preferredCaptureIDs.merge(matches) { _, new in new }
+            let currentIDs = Set(windows.map(\.id))
+            preferredCaptureIDs = preferredCaptureIDs.filter {
+                currentIDs.contains($0.key)
+            }
             let windowsByID = Dictionary(
                 uniqueKeysWithValues: content.windows.map { ($0.windowID, $0) }
             )

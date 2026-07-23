@@ -341,18 +341,26 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
                 )
             }
         }
-        windowElements = elements
-        return discovered
+        let activeWindows = activeWindowsCollapsingTabGroups(discovered)
+        let activeIDs = Set(activeWindows.map(\.id))
+        windowElements = elements.filter { activeIDs.contains($0.key) }
+        return activeWindows
     }
 
     private func isSwitchable(_ element: AXUIElement) -> Bool {
         let role: String? = accessibilityAttribute(element, kAXRoleAttribute)
-        guard role == (kAXWindowRole as String) else {
-            return false
-        }
         let subrole: String? = accessibilityAttribute(element, kAXSubroleAttribute)
-        return subrole == (kAXStandardWindowSubrole as String)
-            || subrole == "AXDialog"
+        let isMain: Bool = accessibilityAttribute(element, kAXMainAttribute) ?? false
+        let isMinimized: Bool = accessibilityAttribute(
+            element,
+            kAXMinimizedAttribute
+        ) ?? false
+        return isSwitchableWindow(
+            role: role,
+            subrole: subrole,
+            isMain: isMain,
+            isMinimized: isMinimized
+        )
     }
 
     private func startWindowObservation(for application: PreviewableApplication) {
@@ -377,4 +385,24 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
             windowElements.removeAll(keepingCapacity: true)
         }
     }
+}
+
+func isSwitchableWindow(
+    role: String?,
+    subrole: String?,
+    isMain: Bool,
+    isMinimized: Bool = false
+) -> Bool {
+    guard role == (kAXWindowRole as String) else {
+        return false
+    }
+    return subrole == (kAXStandardWindowSubrole as String)
+        || (subrole == "AXDialog" && (isMain || isMinimized))
+}
+
+func windowPreviewTitle(applicationName: String, windowTitle: String) -> String {
+    guard !windowTitle.isEmpty, windowTitle != applicationName else {
+        return applicationName
+    }
+    return "\(applicationName) — \(windowTitle)"
 }

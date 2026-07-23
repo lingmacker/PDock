@@ -57,7 +57,7 @@ final class DockPreviewControllerTests: XCTestCase {
 
         XCTAssertEqual(
             system.presentedPanel?.cards.map(\.title),
-            ["Quarterly Plan", "Meeting Notes"]
+            ["TextEdit — Quarterly Plan", "TextEdit — Meeting Notes"]
         )
     }
 
@@ -201,7 +201,7 @@ final class DockPreviewControllerTests: XCTestCase {
 
         XCTAssertEqual(
             system.presentedPanel?.cards.map(\.title),
-            ["Replacement", "Second"]
+            ["TextEdit — Replacement", "TextEdit — Second"]
         )
     }
 
