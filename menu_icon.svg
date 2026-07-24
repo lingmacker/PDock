@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <title>PDock Focus Grid App Icon</title>
+  <defs>
+    <clipPath id="icon-shape">
+      <rect width="1024" height="1024" rx="200"/>
+    </clipPath>
+    <rect id="window-cell" width="14" height="12" rx="3.5" fill="currentColor"/>
+    <rect id="dock-cell" width="10" height="10" rx="3" fill="currentColor"/>
+  </defs>
+
+  <g clip-path="url(#icon-shape)">
+    <g transform="translate(43.4286 57.1429) scale(9.37143)" color="#000000">
+      <use href="#window-cell" x="21" y="20"/>
+      <use href="#window-cell" x="43" y="16"/>
+      <use href="#window-cell" x="65" y="20"/>
+      <use href="#window-cell" x="32" y="39"/>
+      <use href="#window-cell" x="54" y="39"/>
+      <rect x="43" y="56" width="14" height="13" rx="4" fill="currentColor"/>
+      <use href="#dock-cell" x="15" y="76"/>
+      <use href="#dock-cell" x="30" y="76"/>
+      <use href="#dock-cell" x="45" y="76"/>
+      <use href="#dock-cell" x="60" y="76"/>
+      <use href="#dock-cell" x="75" y="76"/>
+    </g>
+  </g>
+
+  <rect x="24" y="24" width="976" height="976" rx="176" stroke="#000000" stroke-width="48"/>
+</svg>

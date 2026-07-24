@@ -6,8 +6,10 @@ struct PDockApp: App {
     @NSApplicationDelegateAdaptor(PDockAppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("PDock", systemImage: "dock.rectangle") {
+        MenuBarExtra {
             MenuBarContent(model: appDelegate.model)
+        } label: {
+            Image("MenuBarIcon")
         }
         .menuBarExtraStyle(.menu)
     }
