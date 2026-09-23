@@ -14,6 +14,13 @@ final class PermissionController {
         accessibilityGranted && screenRecordingGranted
     }
 
+    var accessibilityPermissionName: String {
+        if ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 27 {
+            return String(localized: "Device Control & Data Access")
+        }
+        return String(localized: "Accessibility")
+    }
+
     func refresh() {
         accessibilityGranted = AXIsProcessTrusted()
         screenRecordingGranted = CGPreflightScreenCaptureAccess()

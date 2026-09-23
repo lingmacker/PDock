@@ -17,7 +17,7 @@ struct OnboardingView: View {
 
             permissionStep(
                 number: 1,
-                title: String(localized: "Accessibility", comment: "Accessibility permission title"),
+                title: model.permissions.accessibilityPermissionName,
                 explanation: String(
                     localized: "Required to identify Dock application items and perform Window Selection.",
                     comment: "Accessibility permission explanation"

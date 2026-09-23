@@ -9,6 +9,7 @@
     "Close window" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Close window" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关闭窗口" } } } },
     "Complete Permission Setup" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete Permission Setup" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "完成权限设置" } } } },
     "Dock Preview" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Dock Preview" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Dock 窗口预览" } } } },
+    "Device Control & Data Access" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Device Control & Data Access" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设备控制和数据访问" } } } },
     "Done" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "完成" } } } },
     "Enable Dock Previews" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable Dock Previews" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "启用 Dock 窗口预览" } } } },
     "Enable ⌘Tab Window Switching" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable ⌘Tab Window Switching" } }, "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "启用 ⌘Tab 窗口切换" } } } },

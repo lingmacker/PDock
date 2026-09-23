@@ -71,7 +71,7 @@ struct SettingsView: View {
 
             Section("Permissions") {
                 permissionRow(
-                    title: "Accessibility",
+                    title: model.permissions.accessibilityPermissionName,
                     granted: model.permissions.accessibilityGranted,
                     openSettings: model.permissions.openAccessibilitySettings
                 )
@@ -129,7 +129,7 @@ struct SettingsView: View {
     }
 
     private func permissionRow(
-        title: LocalizedStringKey,
+        title: String,
         granted: Bool,
         openSettings: @escaping () -> Void
     ) -> some View {
