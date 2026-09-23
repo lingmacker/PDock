@@ -20,65 +20,40 @@ PDock 不替换系统 Dock，不修改 Dock 配置，也不接管应用启动、
 
 - macOS 14 或更高版本
 - Apple Silicon (`arm64`)
-- 辅助功能权限
+- 辅助功能权限（macOS 27 起设置名称为“设备控制和数据访问”）
 - 屏幕录制权限
 
 ## 构建
 
-默认命令生成 ad-hoc 签名的 Debug App：
+`make` 生成 ad-hoc 签名的 Debug App：
 
 ```sh
-make
+make build
 ```
 
-构建产物：
-
-```text
-.build/make/Build/Products/Debug/PDock.app
-```
-
-构建并启动：
+构建产物位于 `.build/Build/Products/Debug/PDock.app`。构建并启动、清理产物：
 
 ```sh
 make run
+make clean
 ```
 
 运行测试：
 
 ```sh
-make test
+xcodebuild -project PDock.xcodeproj -scheme PDock -destination 'platform=macOS' test
 ```
 
-清理构建产物：
+可覆盖配置、产物目录和版本号：
 
 ```sh
-make clean
+make build CONFIGURATION=Release DERIVED_DATA=.build/release \
+  MARKETING_VERSION=1.0.8 CURRENT_PROJECT_VERSION=108
 ```
 
-查看全部命令：
+## 发布
 
-```sh
-make help
-```
-
-可以覆盖默认变量：
-
-```sh
-make build CONFIGURATION=Release DERIVED_DATA=.build/release
-```
-
-## Developer ID 构建
-
-正式站外发布需要有效的 Developer ID Application 证书和 Apple Developer Team：
-
-```sh
-make build \
-  CONFIGURATION=Release \
-  CODE_SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" \
-  DEVELOPMENT_TEAM=TEAMID
-```
-
-当前 GitHub Release 工作流生成 ad-hoc 签名且未经公证的压缩包。应用内容变化后，macOS 可能将其识别为新的代码身份，用户需要重新授予辅助功能和屏幕录制权限。
+推送符合 `vMAJOR.MINOR.PATCH` 格式的 Git tag（例如 `v1.0.8`）会触发 GitHub Actions，构建并发布 arm64 压缩包及 SHA-256 校验文件。发布包使用 ad-hoc 签名，未经公证；首次打开时 macOS 可能要求用户在系统设置中批准。应用更新后，可能需要重新授予隐私权限。
 
 ## 首次运行
 
@@ -124,4 +99,3 @@ Xcode 使用普通 Group，Group 层级与磁盘目录保持一致。`DockPrevie
 - 不记录窗口图像、窗口标题或应用内容
 - 不访问网络，不收集遥测，不上传崩溃报告
 - 只使用公开 Apple API
-- Developer ID 配置启用 Hardened Runtime，关闭 App Sandbox
