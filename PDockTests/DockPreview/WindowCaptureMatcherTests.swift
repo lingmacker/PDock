@@ -153,29 +153,4 @@ final class WindowCaptureMatcherTests: XCTestCase {
         )
     }
 
-    func testOnlyActiveWindowIsKeptForSameFrameTabGroup() {
-        let inactive = SwitchableWindow(
-            id: WindowIdentity(processID: 77, elementID: 1),
-            title: "Inactive",
-            frame: CGRect(x: 58, y: 33, width: 1412, height: 923),
-            isMinimized: true
-        )
-        let active = SwitchableWindow(
-            id: WindowIdentity(processID: 77, elementID: 2),
-            title: "Active",
-            frame: inactive.frame,
-            isMinimized: false
-        )
-        let separate = SwitchableWindow(
-            id: WindowIdentity(processID: 77, elementID: 3),
-            title: "Separate",
-            frame: CGRect(x: 200, y: 100, width: 900, height: 700),
-            isMinimized: false
-        )
-
-        XCTAssertEqual(
-            activeWindowsCollapsingTabGroups([inactive, active, separate]).map(\.id),
-            [active.id, separate.id]
-        )
-    }
 }

@@ -369,12 +369,7 @@ final class WindowSwitcherController {
                 )
             }
         }
-        let activeIDs = Set(
-            activeWindowsCollapsingTabGroups(
-                result.map(\.switchableWindow)
-            ).map(\.id)
-        )
-        return result.filter { activeIDs.contains($0.id) }
+        return result
     }
 
     private func orderByRecentUse() {

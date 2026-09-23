@@ -341,10 +341,8 @@ final class LiveDockPreviewSystem: DockPreviewSystem {
                 )
             }
         }
-        let activeWindows = activeWindowsCollapsingTabGroups(discovered)
-        let activeIDs = Set(activeWindows.map(\.id))
-        windowElements = elements.filter { activeIDs.contains($0.key) }
-        return activeWindows
+        windowElements = elements
+        return discovered
     }
 
     private func isSwitchable(_ element: AXUIElement) -> Bool {
