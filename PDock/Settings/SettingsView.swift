@@ -76,7 +76,7 @@ struct SettingsView: View {
                     openSettings: model.permissions.openAccessibilitySettings
                 )
                 permissionRow(
-                    title: "Screen Recording",
+                    title: String(localized: "Screen Recording"),
                     granted: model.permissions.screenRecordingGranted,
                     openSettings: model.permissions.openScreenRecordingSettings
                 )
