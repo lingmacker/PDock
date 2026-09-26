@@ -104,6 +104,6 @@ jobs:
               "dist/$ARCHIVE_NAME.sha256" \
               --verify-tag \
               --title "PDock $VERSION" \
-              --notes "This build is ad-hoc signed and not notarized. macOS Gatekeeper may require explicit user approval before first launch." \
+              --notes "Requires macOS 26 or later. This build is ad-hoc signed and not notarized. macOS Gatekeeper may require explicit user approval before first launch." \
               --generate-notes
           fi
