@@ -1,5 +1,7 @@
 # PDock
 
+<p align="center"><img src="PDockIcon.png" alt="PDock 应用图标" width="128"></p>
+
 PDock 是一个原生 macOS 菜单栏工具，为系统 Dock 增加窗口预览能力。指针悬停在运行中的 Previewable Application 上时，PDock 会显示包含所有 Switchable Window 的非激活 Window Preview Panel；选择 Window Preview Card 后可切换到对应窗口。
 
 PDock 不替换系统 Dock，不修改 Dock 配置，也不接管应用启动、固定或排序行为。
