@@ -4,7 +4,6 @@ import SwiftUI
 @MainActor
 final class OnboardingWindowController {
     private var window: NSWindow?
-    private var windowDelegate: WindowReleaseDelegate?
 
     func show(model: PDockApplicationModel) {
         if let window {
@@ -23,12 +22,6 @@ final class OnboardingWindowController {
         window.center()
         window.isReleasedWhenClosed = false
         window.setFrameAutosaveName("PDockOnboarding")
-        let delegate = WindowReleaseDelegate { [weak self] in
-            self?.window = nil
-            self?.windowDelegate = nil
-        }
-        window.delegate = delegate
-        windowDelegate = delegate
         self.window = window
         present(window)
     }
@@ -37,17 +30,5 @@ final class OnboardingWindowController {
         NSApplication.shared.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
-    }
-}
-
-private final class WindowReleaseDelegate: NSObject, NSWindowDelegate {
-    private let didClose: () -> Void
-
-    init(didClose: @escaping () -> Void) {
-        self.didClose = didClose
-    }
-
-    func windowWillClose(_ notification: Notification) {
-        didClose()
     }
 }

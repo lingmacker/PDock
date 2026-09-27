@@ -7,10 +7,6 @@ final class WindowPreviewPanelController {
     private var panel: NonactivatingPreviewPanel?
     private var model: WindowPreviewPanelModel?
 
-    var isVisible: Bool {
-        panel?.isVisible == true
-    }
-
     func contains(_ appKitScreenPoint: CGPoint) -> Bool {
         panel?.frame.contains(appKitScreenPoint) == true
     }

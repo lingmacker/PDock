@@ -149,7 +149,6 @@ struct SettingsView: View {
 @MainActor
 final class SettingsWindowController {
     private var window: NSWindow?
-    private var windowDelegate: SettingsWindowDelegate?
 
     func show(model: PDockApplicationModel) {
         if let window {
@@ -168,12 +167,6 @@ final class SettingsWindowController {
         window.center()
         window.isReleasedWhenClosed = false
         window.setFrameAutosaveName("PDockSettings")
-        let delegate = SettingsWindowDelegate { [weak self] in
-            self?.window = nil
-            self?.windowDelegate = nil
-        }
-        window.delegate = delegate
-        windowDelegate = delegate
         self.window = window
         present(window)
     }
@@ -182,17 +175,5 @@ final class SettingsWindowController {
         NSApplication.shared.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
-    }
-}
-
-private final class SettingsWindowDelegate: NSObject, NSWindowDelegate {
-    private let didClose: () -> Void
-
-    init(didClose: @escaping () -> Void) {
-        self.didClose = didClose
-    }
-
-    func windowWillClose(_ notification: Notification) {
-        didClose()
     }
 }

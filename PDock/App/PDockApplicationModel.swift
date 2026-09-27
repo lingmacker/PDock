@@ -65,9 +65,6 @@ final class PDockApplicationModel {
         if dockPreview.state == .running || windowSwitcher.state == .running {
             return String(localized: "Running", comment: "Menu bar status when previews are active")
         }
-        if case .failed = dockPreview.state {
-            return String(localized: "Error", comment: "Menu bar status when previews failed")
-        }
         if windowSwitcher.state == .failed {
             return String(localized: "Error", comment: "Menu bar status when previews failed")
         }

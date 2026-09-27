@@ -4,7 +4,6 @@ public enum DockPreviewState: Equatable, Sendable {
     case stopped
     case needsPermissions(accessibility: Bool, screenRecording: Bool)
     case running
-    case failed(String)
 }
 
 public enum DockPreviewPermissionState: Equatable, Sendable {

@@ -52,7 +52,6 @@ final class WindowSwitcherController {
     @ObservationIgnored private var recentWindowIDs: [WindowIdentity] = []
     @ObservationIgnored private var selectedIndex = 0
     @ObservationIgnored private var originalWindowID: WindowIdentity?
-    @ObservationIgnored private var cancelled = false
     @ObservationIgnored private var onPresentationChanged: ((Bool) -> Void)?
 
     init(thumbnailCapturer: any WindowThumbnailCapturing = ScreenCaptureThumbnailCapturer()) {
@@ -174,7 +173,6 @@ final class WindowSwitcherController {
         } else {
             selectedIndex = 1
         }
-        cancelled = false
         isPresented = true
         onPresentationChanged?(true)
         panelController.present(
@@ -199,7 +197,7 @@ final class WindowSwitcherController {
         guard isPresented else { return }
         let selected = windows.indices.contains(selectedIndex) ? windows[selectedIndex] : nil
         finishPresentation()
-        guard !cancelled, let selected else { return }
+        guard let selected else { return }
         activator.activate(WindowActivationTarget(id: selected.id, element: selected.element))
         recordRecent(selected.id)
     }
@@ -240,7 +238,6 @@ final class WindowSwitcherController {
 
     private func cancelSwitch() {
         guard isPresented else { return }
-        cancelled = true
         finishPresentation()
         if
             let originalWindowID,

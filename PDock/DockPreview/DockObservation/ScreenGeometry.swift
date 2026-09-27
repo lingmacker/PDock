@@ -20,20 +20,6 @@ struct ScreenGeometry {
         return (screen, rect)
     }
 
-    func appKitPoint(for quartzPoint: CGPoint) -> CGPoint? {
-        guard let screen = screen(containingQuartzPoint: quartzPoint) else {
-            return nil
-        }
-        guard let displayID = displayID(for: screen) else {
-            return nil
-        }
-        let quartzBounds = CGDisplayBounds(displayID)
-        return CGPoint(
-            x: screen.frame.minX + quartzPoint.x - quartzBounds.minX,
-            y: screen.frame.maxY - (quartzPoint.y - quartzBounds.minY)
-        )
-    }
-
     private func screen(containingQuartzPoint point: CGPoint) -> NSScreen? {
         NSScreen.screens.first { screen in
             guard let displayID = displayID(for: screen) else {
