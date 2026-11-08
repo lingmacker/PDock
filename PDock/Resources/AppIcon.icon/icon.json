@@ -1,18 +1,26 @@
 {
-  "fill": { "automatic-gradient": "extended-srgb:0.12941,0.13333,0.15294,1.00000" },
+  "fill": { "automatic-gradient": "extended-srgb:0.15686,0.16078,0.17255,1.00000" },
   "groups": [
     {
-      "name": "Focus",
-      "layers": [ { "image-name": "03-focus.svg", "name": "Focus" } ],
-      "translucency": { "enabled": false, "value": 0 }
+      "name": "Selected Window",
+      "layers": [ { "image-name": "03-focus.svg", "name": "Selected Window" } ],
+      "translucency": { "enabled": false, "value": 0 },
+      "specular": false,
+      "shadow": { "kind": "neutral", "opacity": 0 }
     },
     {
-      "name": "Dock",
-      "layers": [ { "image-name": "02-dock.svg", "name": "Dock" } ]
+      "name": "Rear Window and Dock",
+      "layers": [ { "image-name": "02-dock.svg", "name": "Rear Window and Dock" } ],
+      "translucency": { "enabled": false, "value": 0 },
+      "specular": false,
+      "shadow": { "kind": "neutral", "opacity": 0 }
     },
     {
       "name": "Background",
-      "layers": [ { "image-name": "01-background.svg", "name": "Background" } ]
+      "layers": [ { "image-name": "01-background.svg", "name": "Background" } ],
+      "translucency": { "enabled": false, "value": 0 },
+      "specular": false,
+      "shadow": { "kind": "neutral", "opacity": 0 }
     }
   ],
   "supported-platforms": { "squares": [ "macOS" ] }

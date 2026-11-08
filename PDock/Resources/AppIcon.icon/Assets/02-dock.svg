@@ -1,3 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <rect x="267" y="788" width="490" height="80" rx="40" fill="#565B63"/>
+  <title>Rear window and Dock</title>
+  <g transform="scale(8)"><path d="M33 28H84Q92 28 92 36V40H42Q34 40 34 48V73H33Q25 73 25 65V36Q25 28 33 28Z" fill="#BDC5CE"/><rect x="30" y="100" width="68" height="7" rx="3.5" fill="#BDC5CE"/></g>
 </svg>

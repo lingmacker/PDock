@@ -1,15 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <title>PDock — abstract window and selected Dock position</title>
-  <defs>
-    <clipPath id="icon"><rect width="1024" height="1024" rx="218"/></clipPath>
-    <linearGradient id="charcoal" x2="1" y2="1"><stop stop-color="#2B2C31"/><stop offset="1" stop-color="#18191D"/></linearGradient>
-    <linearGradient id="ivory" x2="1" y2="1"><stop stop-color="#F3F2ED"/><stop offset="1" stop-color="#DADDD9"/></linearGradient>
-    <linearGradient id="copper" x2="1" y2="1"><stop stop-color="#F3BA80"/><stop offset="1" stop-color="#D4875E"/></linearGradient>
-  </defs>
-  <g clip-path="url(#icon)">
-    <rect width="1024" height="1024" fill="url(#charcoal)"/>
-    <path d="M706 303H341c-32 0-46 15-46 47v244c0 36 16 53 52 53h184" fill="none" stroke="url(#ivory)" stroke-width="92" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="628" y="597" width="112" height="100" rx="27" fill="url(#copper)"/>
-    <rect x="267" y="788" width="490" height="80" rx="40" fill="#565B63"/>
-  </g>
+  <title>PDock — stacked window previews above the Dock</title>
+  <rect width="1024" height="1024" rx="218" fill="#28292C"/>
+  <g transform="scale(8)"><path d="M33 28H84Q92 28 92 36V40H42Q34 40 34 48V73H33Q25 73 25 65V36Q25 28 33 28Z" fill="#BDC5CE"/><rect x="30" y="100" width="68" height="7" rx="3.5" fill="#BDC5CE"/><path d="M48 45H95Q103 45 103 53V80Q103 88 95 88H48Q40 88 40 80V53Q40 45 48 45Z M49 54.5H94a2.5 2.5 0 0 1 0 5H49a2.5 2.5 0 0 1 0-5Z" fill="#F8F7F3" fill-rule="evenodd"/><rect x="58" y="100" width="20" height="7" rx="3.5" fill="#FF8547"/></g>
 </svg>

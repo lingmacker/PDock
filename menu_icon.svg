@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54">
-  <title>PDock menu bar — abstract window above the Dock</title>
-  <path d="M40 11H15c-3 0-4 1-4 4v18c0 3 1 4 4 4h13" fill="none" stroke="#000" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="36" y="33" width="8" height="7" rx="2" fill="#000"/>
-  <rect x="8" y="46" width="38" height="7" rx="3.5" fill="#000"/>
+  <title>PDock menu bar — stacked window previews above the Dock</title>
+  <g fill="#28292C">
+    <path d="M10 7H36Q41 7 41 12V14H20Q13 14 13 21V35H10Q6 35 6 31V11Q6 7 10 7Z"/>
+    <path d="M21 18H44Q48 18 48 22V38Q48 42 44 42H21Q17 42 17 38V22Q17 18 21 18Z M23.5 24H41.5a1.5 1.5 0 0 1 0 3H23.5a1.5 1.5 0 0 1 0-3Z" fill-rule="evenodd"/>
+    <rect x="8" y="47" width="38" height="4" rx="2"/>
+  </g>
 </svg>
