@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct OnboardingView: View {
@@ -13,6 +14,25 @@ struct OnboardingView: View {
                     comment: "Onboarding product explanation"
                 )
                 .foregroundStyle(.secondary)
+            }
+
+            HStack(spacing: 14) {
+                Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle.main.bundlePath))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 64, height: 64)
+                    .contentShape(Rectangle())
+                    .onDrag {
+                        NSItemProvider(object: Bundle.main.bundleURL as NSURL)
+                    }
+                    .accessibilityLabel(Text(verbatim: "PDock"))
+                    .accessibilityHint("Drag this icon to the app list in System Settings.")
+                    .help("Drag this icon to the app list in System Settings.")
+
+                Text("Open the settings page below, then drag this icon into its app list and turn on PDock. If PDock is already listed, just turn it on.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             permissionStep(
@@ -92,6 +112,7 @@ struct OnboardingView: View {
                 Text(explanation)
                     .font(.callout)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 HStack {
                     Button(granted ? "Request Again" : "Grant Access", action: request)
                         .disabled(!enabled)

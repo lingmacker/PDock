@@ -8,6 +8,7 @@
 "Device Control & Data Access" = "设备控制和数据访问";
 "Dock Preview" = "Dock 窗口预览";
 "Done" = "完成";
+"Drag this icon to the app list in System Settings." = "将此图标拖入系统设置的应用列表。";
 "Enable Dock Previews" = "启用 Dock 窗口预览";
 "Enable ⌘Tab Window Switching" = "启用 ⌘Tab 窗口切换";
 "Error" = "错误";
@@ -19,6 +20,7 @@
 "Open Permission Setup" = "打开权限设置";
 "Open Settings" = "打开设置";
 "Open System Settings" = "打开系统设置";
+"Open the settings page below, then drag this icon into its app list and turn on PDock. If PDock is already listed, just turn it on." = "打开下方对应的系统设置页面，将此图标拖入应用列表，再开启 PDock 的权限开关。如果列表中已有 PDock，直接开启即可。";
 "PDock shows live previews of your Switchable Windows when you hover over a Previewable Application in the system Dock." = "当你将指针悬停在系统 Dock 的可预览应用上时，PDock 会显示所有可切换窗口的实时预览。";
 "Paused" = "已暂停";
 "Permissions" = "权限";

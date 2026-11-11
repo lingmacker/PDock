@@ -8,6 +8,7 @@
 "Device Control & Data Access" = "Device Control & Data Access";
 "Dock Preview" = "Dock Preview";
 "Done" = "Done";
+"Drag this icon to the app list in System Settings." = "Drag this icon to the app list in System Settings.";
 "Enable Dock Previews" = "Enable Dock Previews";
 "Enable ⌘Tab Window Switching" = "Enable ⌘Tab Window Switching";
 "Error" = "Error";
@@ -19,6 +20,7 @@
 "Open Permission Setup" = "Open Permission Setup";
 "Open Settings" = "Open Settings";
 "Open System Settings" = "Open System Settings";
+"Open the settings page below, then drag this icon into its app list and turn on PDock. If PDock is already listed, just turn it on." = "Open the settings page below, then drag this icon into its app list and turn on PDock. If PDock is already listed, just turn it on.";
 "PDock shows live previews of your Switchable Windows when you hover over a Previewable Application in the system Dock." = "PDock shows live previews of your Switchable Windows when you hover over a Previewable Application in the system Dock.";
 "Paused" = "Paused";
 "Permissions" = "Permissions";

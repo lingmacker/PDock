@@ -61,7 +61,7 @@ make build CONFIGURATION=Release DERIVED_DATA=.build/release \
 
 1. 启动 PDock。
 2. 在权限引导中授予辅助功能权限。
-3. 授予屏幕录制权限。
+3. 授予屏幕录制权限。也可点击对应的“打开系统设置”，将引导页中的 PDock 图标拖入权限应用列表，再开启权限开关；如果已有 PDock，直接开启即可。
 4. 如果屏幕录制权限未立即生效，退出并重新打开 PDock。
 5. 将指针悬停在系统 Dock 中正在运行且拥有窗口的应用图标上。
 6. 点击 Window Preview Card 切换到目标窗口。
